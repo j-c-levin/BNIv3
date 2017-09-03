@@ -10,12 +10,12 @@ public class test_CameraController : MonoBehaviour {
 	private GameObject currentTarget;
 	// Use this for initialization
 	void Start () {
-		gameCamera.destinationDelegate = CameraDelegate; 
+		gameCamera.destinationReachedDelegate = DestinationSwap; 
 		gameCamera.SetTarget(target1);	
 		currentTarget = target1;
 	}
 
-	void CameraDelegate() {
+	void DestinationSwap() {
 		GameObject target = (currentTarget == target1) ? target2 : target1;
 		currentTarget = target;
 		gameCamera.SetTarget(target);

@@ -4,31 +4,29 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    public delegate void reachedDestination();
     public float movementSpeed;
-    public reachedDestination destinationDelegate;
+    public delegate void reachedDestination();
+    public reachedDestination destinationReachedDelegate;
     private Transform target;
-	private Transform source;
     public void FixedUpdate()
     {
         if (target != null)
         { 
-            Vector3 newPosition = Vector3.MoveTowards(source.position, target.position, movementSpeed);
+            Vector3 newPosition = Vector3.MoveTowards(transform.position, target.position, movementSpeed);
             // Keep the camera at the same height and move only in a 2d plane
             newPosition.z = transform.position.z;
             transform.position = newPosition;
             if (CameraAtTarget() && DelegateAssigned())
             {
 				target = null;
-                destinationDelegate();
+                destinationReachedDelegate();
             }
         }
     }
 
     public void SetTarget(GameObject target)
     {
-		this.source = transform;
-        this.target = target.transform;
+		this.target = target.transform;
     }
 
     private bool CameraAtTarget()
@@ -46,6 +44,6 @@ public class CameraMovement : MonoBehaviour
 
     private bool DelegateAssigned()
     {
-        return destinationDelegate != null;
+        return destinationReachedDelegate != null;
     }
 }
