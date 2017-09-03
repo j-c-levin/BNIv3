@@ -46,6 +46,7 @@ public class PlayerDeath : MonoBehaviour
 
     public void TriggerDeath()
     {
+        deathCounter = 0;
 		spawn.SpawnPlayer(this.gameObject);
     }
 }

@@ -11,7 +11,7 @@ public class CameraMovement : MonoBehaviour
     public void FixedUpdate()
     {
         if (target != null)
-        { 
+        {
             Vector3 newPosition = Vector3.MoveTowards(transform.position, target.position, movementSpeed);
             // Keep the camera at the same height and move only in a 2d plane
             newPosition.z = transform.position.z;
