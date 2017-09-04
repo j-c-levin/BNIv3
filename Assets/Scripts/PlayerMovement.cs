@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.LogError("No rigidbody found on player");
         }
+        JumpUp();
     }
 
     public void JumpLeft()
@@ -32,6 +33,10 @@ public class PlayerMovement : MonoBehaviour
     public void JumpRight()
     {
         Jump((int)JumpDirection.RIGHT);
+    }
+    public void JumpUp()
+    {
+        Jump(0);
     }
     public void Drop()
     {
