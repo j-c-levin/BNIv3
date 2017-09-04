@@ -11,7 +11,7 @@ public class test_MovementController : MonoBehaviour
     void Update()
     {
         bool drop = Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow);
-        if (drop)
+        if (drop && readyToJump)
         {
             player.Drop();
             readyToJump = false;
@@ -28,7 +28,7 @@ public class test_MovementController : MonoBehaviour
             player.JumpLeft();
             readyToJump = false;
         }
-        else if (movement == 0)
+        else if (movement == 0 && drop == false)
         {
             readyToJump = true;
         }
