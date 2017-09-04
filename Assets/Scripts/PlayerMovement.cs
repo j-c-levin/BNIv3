@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
         LEFT = -1,
         RIGHT = 1
     }
+
     // Use this for initialization
     public void Start()
     {
@@ -34,10 +35,12 @@ public class PlayerMovement : MonoBehaviour
     {
         Jump((int)JumpDirection.RIGHT);
     }
+    
     public void JumpUp()
     {
         Jump(0);
     }
+
     public void Drop()
     {
         player.velocity = new Vector2(0, -dropSpeed);

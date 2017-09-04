@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour
         gameCamera.SetTarget(target1);
 		endOfRace = false;
     }
-
+    
     private void DestinationSwap()
     {
         if (endOfRace == false)

@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalMovementSpeed: 5
   jumpSpeed: 13
-  dropSpeed: 10
+  dropSpeed: 20
 --- !u!114 &114991890745288814
 MonoBehaviour:
   m_ObjectHideFlags: 1

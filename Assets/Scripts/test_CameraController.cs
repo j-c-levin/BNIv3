@@ -8,6 +8,7 @@ public class test_CameraController : MonoBehaviour {
 	public CameraMovement gameCamera;
 
 	private GameObject currentTarget;
+	
 	// Use this for initialization
 	void Start () {
 		gameCamera.destinationReachedDelegate = DestinationSwap; 

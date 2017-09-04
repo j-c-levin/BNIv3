@@ -6,10 +6,12 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
     public Button restartButton;
+    
     public void EndOfRace()
     {
         restartButton.gameObject.SetActive(true);
     }
+
     public void RestartRace()
     {
         // Deactivate the button

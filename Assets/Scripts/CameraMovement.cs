@@ -23,7 +23,7 @@ public class CameraMovement : MonoBehaviour
             }
         }
     }
-
+    
     public void SetTarget(GameObject target)
     {
 		this.target = target.transform;

@@ -16,7 +16,7 @@ public class PlayerDeath : MonoBehaviour
     {
 		spawn = GameObject.FindGameObjectWithTag("GameController").GetComponent<ISpawnController>();
     }
-
+    
     public void FixedUpdate()
     {
         if (isOffScreen)
