@@ -822,7 +822,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &669420645
 GameObject:
@@ -1068,12 +1068,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 827677833}
-  - component: {fileID: 827677832}
   - component: {fileID: 827677831}
   - component: {fileID: 827677830}
   - component: {fileID: 827677834}
+  - component: {fileID: 827677832}
   m_Layer: 0
-  m_Name: controllers
+  m_Name: Controllers
   m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1111,7 +1111,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 827677829}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e3af6ebfc07e4d4d8703b379cbe4634, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e100a5ac5c91f54bb05dd64ecc10d6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 587876945}
@@ -1126,7 +1126,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &827677834
 MonoBehaviour:
@@ -2106,7 +2106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e37d83ebce05ad74683fd3228dde9e7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  browserStartMode: 0
+  browserStartMode: 1
   controllerHtml: {fileID: 102900000, guid: 64026e514b8387d4fae7ded8dd79e6f9, type: 3}
   autoScaleCanvas: 1
 --- !u!4 &1577061160
