@@ -4,19 +4,29 @@ using UnityEngine;
 
 public class PlayerDeath : MonoBehaviour
 {
-	private ISpawnController spawn;
+    private ISpawnController spawn;
+    private IScoreController scoreController;
     private float deathCounter = 0;
-	private float deathCounterMax = 100;
-	private float deathCounterMin = 0;
-	private float deathCounterAddition = 2;
-	private float deathCounterReduction = 1;
+    private float deathCounterMax = 100;
+    private float deathCounterMin = 0;
+    private float deathCounterAddition = 2;
+    private float deathCounterReduction = 1;
     private bool isOffScreen = false;
 
     public void Start()
     {
-		spawn = GameObject.FindGameObjectWithTag("GameController").GetComponent<ISpawnController>();
+        spawn = GameObject.FindGameObjectWithTag("GameController").GetComponent<ISpawnController>();
+        if (spawn == null)
+        {
+            Debug.Log("Spawn controller not found");
+        }
+        scoreController = GameObject.FindGameObjectWithTag("GameController").GetComponent<IScoreController>();
+        if (scoreController == null)
+        {
+            Debug.LogError("Score controller not found");
+        }
     }
-    
+
     public void FixedUpdate()
     {
         if (isOffScreen)
@@ -47,6 +57,8 @@ public class PlayerDeath : MonoBehaviour
     public void TriggerDeath()
     {
         deathCounter = 0;
-		spawn.SpawnPlayer(this.gameObject);
+        spawn.SpawnPlayer(this.gameObject);
+        int playerId = GetComponent<PlayerScore>().playerId;
+        scoreController.PlayerDeath(playerId);
     }
 }
