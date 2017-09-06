@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NDream.AirConsole;
 
 public class PowerupController : MonoBehaviour, IPowerupController
 {
@@ -9,29 +11,27 @@ public class PowerupController : MonoBehaviour, IPowerupController
         None,
         JupiterJump
     }
-    private Dictionary<int, PlayerPowerup> playersDictionary;
+    private Dictionary<int, GameObject> playersDictionary;
     private Dictionary<int, Powerup> hasPowerupDictionary;
 
     public void Start()
     {
-        playersDictionary = new Dictionary<int, PlayerPowerup>();
+        playersDictionary = GetComponent<SpawnController>().players;
         hasPowerupDictionary = new Dictionary<int, Powerup>();
-    }
-
-    public void AddPlayer(int playerId, PlayerPowerup player)
-    {
-        playersDictionary.Add(playerId, player);
-        hasPowerupDictionary.Add(playerId, Powerup.None);
+        AirConsole.instance.onConnect += OnConnect;
+        AirConsole.instance.onDisconnect += OnDisconnect;
     }
 
     public void CollectedPowerup(int playerId, Collider2D powerup)
     {
-		// Only assign a powerup if a player doesn't already have one
+        // Only assign a powerup if a player doesn't already have one
         if (GetPowerupForPlayer(playerId) != Powerup.None)
         {
             return;
         }
-        hasPowerupDictionary[playerId] = Powerup.JupiterJump;
+        int lengthOfPowerupEnum = Enum.GetNames(typeof(Powerup)).Length;
+        int ability = UnityEngine.Random.Range(1, lengthOfPowerupEnum);
+        hasPowerupDictionary[playerId] = (Powerup)ability;
         Destroy(powerup.gameObject);
     }
 
@@ -50,9 +50,9 @@ public class PowerupController : MonoBehaviour, IPowerupController
         // Remove the powerup
         hasPowerupDictionary[playerId] = Powerup.None;
         // Iterate and use the powerup on every player
-        foreach (KeyValuePair<int, PlayerPowerup> entry in playersDictionary)
+        foreach (KeyValuePair<int, GameObject> entry in playersDictionary)
         {
-            entry.Value.JupiterJump(playerId);
+            entry.Value.GetComponent<PlayerPowerup>().JupiterJump(playerId);
         }
     }
 
@@ -64,5 +64,14 @@ public class PowerupController : MonoBehaviour, IPowerupController
             Debug.LogError("Player id " + playerId + " not registered with powerup controller");
         }
         return hasPowerUp;
+    }
+
+    private void OnConnect(int playerId)
+    {
+        hasPowerupDictionary.Add(playerId, Powerup.None);
+    }
+
+    private void OnDisconnect(int playerId) {
+        hasPowerupDictionary.Remove(playerId);
     }
 }
