@@ -17,12 +17,15 @@ public class SpawnController : MonoBehaviour, ISpawnController
             return spawnPosition;
         }
     }
+    private Color[] colours = new Color[] { Color.red, Color.cyan, Color.green, Color.magenta, Color.yellow, Color.white };
+    private int colourNumber = 0;
 
     public void Start()
     {
         players = new Dictionary<int, GameObject>();
         spawn = GameObject.FindGameObjectWithTag("MainCamera");
         AirConsole.instance.onConnect += OnConnect;
+        AirConsole.instance.onDisconnect += OnDisconnect;
     }
 
     public void SpawnPlayer(GameObject player)
@@ -34,7 +37,21 @@ public class SpawnController : MonoBehaviour, ISpawnController
     private void OnConnect(int playerId)
     {
         GameObject player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
+        player.GetComponent<SpriteRenderer>().color = colours[colourNumber];
+        colourNumber += 1;
+        colourNumber %= colours.Length;
         player.GetComponent<PlayerScore>().playerId = playerId;
         players.Add(playerId, player);
+    }
+
+    private void OnDisconnect(int playerId)
+    {
+        GameObject player;
+        if (players.TryGetValue(playerId, out player) == false)
+        {
+            Debug.Log("Cannot find playerId " + playerId + " to destroy");
+        }
+        Destroy(player);
+        players.Remove(playerId);
     }
 }

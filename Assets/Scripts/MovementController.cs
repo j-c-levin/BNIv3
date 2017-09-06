@@ -20,6 +20,7 @@ public class MovementController : MonoBehaviour
         playerInput = new Dictionary<int, PlayerInput>();
         AirConsole.instance.onMessage += OnMessage;
         AirConsole.instance.onConnect += OnConnect;
+        AirConsole.instance.onDisconnect += OnDisconnect;
     }
 
     public void Update()
@@ -76,8 +77,14 @@ public class MovementController : MonoBehaviour
         }
     }
 
-    private void OnConnect(int playerId) {
+    private void OnConnect(int playerId)
+    {
         PlayerInput newInput = new PlayerInput();
         playerInput.Add(playerId, newInput);
+    }
+
+    private void OnDisconnect(int playerId)
+    {
+        playerInput.Remove(playerId);
     }
 }
