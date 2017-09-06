@@ -6,9 +6,11 @@ public class test_PowerupController : MonoBehaviour, IPowerupController
 {
 	public PlayerPowerup player;
     bool playerHasPowerup = false;
+    
     public void CollectedPowerup(int playerId, Collider2D powerup)
     {
         playerHasPowerup = true;
+        Destroy(powerup.gameObject);
     }
 
     public bool HasPowerup(int playerId)
@@ -18,7 +20,7 @@ public class test_PowerupController : MonoBehaviour, IPowerupController
 
     public void UsePowerup(int playerId)
     {
-		player.JupiterJump(0);
+		player.JupiterJump(1);
         playerHasPowerup = false;
     }
 }

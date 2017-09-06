@@ -6,13 +6,13 @@ public class PlayerPowerup : MonoBehaviour
 {
     public float jupiterJumpGravity;
     public float jupiterJupDuration;
-    private IPowerupController scoreController;
+    private IPowerupController powerupController;
     private int powerupLayer = 9;
     private int playerId;
     public void Start()
     {
-        scoreController = GameObject.FindGameObjectWithTag("GameController").GetComponent<IPowerupController>();
-        if (scoreController == null)
+        powerupController = GameObject.FindGameObjectWithTag("GameController").GetComponent<IPowerupController>();
+        if (powerupController == null)
         {
             Debug.LogError("Powerup controller not found");
         }
@@ -41,7 +41,7 @@ public class PlayerPowerup : MonoBehaviour
         if (collider.gameObject.layer == powerupLayer)
         {
             int playerId = GetComponent<PlayerScore>().playerId;
-            scoreController.CollectedPowerup(playerId, collider);
+            powerupController.CollectedPowerup(playerId, collider);
         }
     }
 }
