@@ -5,17 +5,32 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    public Button restartButton;
-    
+    public GameObject endOfRace;
+    public Text scoreText;
+
+    public void Start() {
+        endOfRace.gameObject.SetActive(false);
+    }
+
     public void EndOfRace()
     {
-        restartButton.gameObject.SetActive(true);
+        endOfRace.gameObject.SetActive(true);
+        string finalScoresText = "";
+        foreach (KeyValuePair<int, int> entry in GetComponent<ScoreController>().scores)
+        {
+            finalScoresText += "Player ";
+            finalScoresText += entry.Key;
+            finalScoresText += " : ";
+            finalScoresText += entry.Value;
+            finalScoresText += "\n";
+        }
+        scoreText.text = finalScoresText;
     }
 
     public void RestartRace()
     {
         // Deactivate the button
-        restartButton.gameObject.SetActive(false);
+        endOfRace.gameObject.SetActive(false);
         // Move camera and players back to the start
         GameObject cam = GameObject.FindGameObjectWithTag("MainCamera");
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -23,7 +38,7 @@ public class UIController : MonoBehaviour
         player.transform.position = Vector3.zero;
         // Give the player a starting boost
         player.GetComponent<PlayerMovement>().JumpUp();
-		// Start the camera again
-		GetComponent<CameraController>().Start();
+        // Start the camera again
+        GetComponent<CameraController>().Start();
     }
 }

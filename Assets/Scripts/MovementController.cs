@@ -13,10 +13,12 @@ public class MovementController : MonoBehaviour, IMovementController
     }
     private Dictionary<int, GameObject> game;
     private Dictionary<int, PlayerInput> playerInput;
+    private PowerupController powerupController;
 
     public void Start()
     {
         game = GetComponent<SpawnController>().players;
+        powerupController = GetComponent<PowerupController>();
         playerInput = new Dictionary<int, PlayerInput>();
         AirConsole.instance.onMessage += OnMessage;
         AirConsole.instance.onConnect += OnConnect;
@@ -30,7 +32,11 @@ public class MovementController : MonoBehaviour, IMovementController
             PlayerMovement player = entry.Value.GetComponent<PlayerMovement>();
             PlayerInput input = GetInputForPlayer(entry.Key);
             bool drop = input.leftButton && input.rightButton;
-            if (drop)
+            if (drop && powerupController.HasPowerup(entry.Key))
+            {
+                powerupController.UsePowerup(entry.Key);
+            }
+            else if (drop)
             {
                 player.Drop();
             }
