@@ -15,7 +15,7 @@ public class ScoreController : MonoBehaviour, IScoreController
         AirConsole.instance.onConnect += OnConnect;
         AirConsole.instance.onDisconnect += OnDisconnect;
     }
-	
+
     public void CollectedDiamond(int playerId, Collider2D diamond)
     {
         ModifyPlayerScore(playerId, diamondValue);
@@ -23,21 +23,32 @@ public class ScoreController : MonoBehaviour, IScoreController
     }
 
     public void PlayerDeath(int playerId)
-    {        
-		ModifyPlayerScore(playerId, deathPenalty);
+    {
+        ModifyPlayerScore(playerId, deathPenalty);
+    }
+
+    public void ResetRace()
+    {
+        Dictionary<int, int> temp = new Dictionary<int, int>();
+        foreach (KeyValuePair<int, int> entry in scores)
+        {
+            temp.Add(entry.Key, 0);
+        }
+        scores = temp;
     }
 
     private void ModifyPlayerScore(int playerId, int modifier)
     {
-		int playerScore;
-		if(scores.TryGetValue(playerId, out playerScore) == false) {
-			Debug.LogError("Player id " + playerId + " not registered with score controller");
-		}
+        int playerScore;
+        if (scores.TryGetValue(playerId, out playerScore) == false)
+        {
+            Debug.LogError("Player id " + playerId + " not registered with score controller");
+        }
         playerScore += modifier;
         scores[playerId] = playerScore;
-    }    
-	
-	private void OnConnect(int playerId)
+    }
+
+    private void OnConnect(int playerId)
     {
         scores.Add(playerId, 0);
     }

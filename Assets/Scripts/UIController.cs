@@ -34,6 +34,8 @@ public class UIController : MonoBehaviour
         endOfRace.gameObject.SetActive(false);
         // Reset the collectables
         GetComponent<SpawnController>().ResetRace();
+        // Reset scores
+        GetComponent<ScoreController>().ResetRace();
         // Move camera and players back to the start
         GameObject cam = GameObject.FindGameObjectWithTag("MainCamera");
         GameObject player = GameObject.FindGameObjectWithTag("Player");
