@@ -4,9 +4,9 @@ using UnityEngine;
 using NDream.AirConsole;
 using Newtonsoft.Json.Linq;
 
-public class MovementController : MonoBehaviour
+public class MovementController : MonoBehaviour, IMovementController
 {
-    private class PlayerInput
+    public class PlayerInput
     {
         public bool leftButton;
         public bool rightButton;
@@ -50,7 +50,7 @@ public class MovementController : MonoBehaviour
         }
     }
 
-    private PlayerInput GetInputForPlayer(int playerId)
+    public PlayerInput GetInputForPlayer(int playerId)
     {
         PlayerInput playerInput;
         if (this.playerInput.TryGetValue(playerId, out playerInput) == false)

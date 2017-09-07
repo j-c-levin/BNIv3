@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class test_PowerupController : MonoBehaviour, IPowerupController
 {
-	public PlayerPowerup player;
+    public PlayerPowerup.Powerup powerup;
+    public bool didPlayerCastPowerup;
+    public PlayerPowerup player;
+    public bool shouldDestroyPowerup;
     bool playerHasPowerup = false;
-    
+
     public void CollectedPowerup(int playerId, Collider2D powerup)
     {
         playerHasPowerup = true;
-        Destroy(powerup.gameObject);
+        if (shouldDestroyPowerup)
+        {
+            Destroy(powerup.gameObject);
+        }
     }
 
     public bool HasPowerup(int playerId)
@@ -20,7 +26,8 @@ public class test_PowerupController : MonoBehaviour, IPowerupController
 
     public void UsePowerup(int playerId)
     {
-		player.JupiterJump(1);
+        playerId = (didPlayerCastPowerup) ? 0 : 1;
+        player.UsePowerup(playerId, powerup);
         playerHasPowerup = false;
     }
 }
