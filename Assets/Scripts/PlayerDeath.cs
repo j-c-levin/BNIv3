@@ -7,10 +7,10 @@ public class PlayerDeath : MonoBehaviour
     private ISpawnController spawn;
     private IScoreController scoreController;
     private float deathCounter = 0;
-    private float deathCounterMax = 100;
-    private float deathCounterMin = 0;
-    private float deathCounterAddition = 2;
-    private float deathCounterReduction = 1;
+    private float deathDurationMax = 100;
+    private float deathDurationMin = 0;
+    private float deathDurationAddition = 2;
+    private float deathDurationReduction = 1;
     private bool isOffScreen = false;
 
     public void Start()
@@ -31,14 +31,14 @@ public class PlayerDeath : MonoBehaviour
     {
         if (isOffScreen)
         {
-            deathCounter += deathCounterAddition;
+            deathCounter += deathDurationAddition;
         }
         else
         {
-            deathCounter -= deathCounterReduction;
+            deathCounter -= deathDurationReduction;
         }
-        deathCounter = Mathf.Clamp(deathCounter, deathCounterMin, deathCounterMax);
-        if (deathCounter == deathCounterMax)
+        deathCounter = Mathf.Clamp(deathCounter, deathDurationMin, deathDurationMax);
+        if (deathCounter == deathDurationMax)
         {
             TriggerDeath();
         }

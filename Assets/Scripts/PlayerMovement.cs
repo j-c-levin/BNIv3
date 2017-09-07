@@ -11,8 +11,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D player;
     private enum JumpDirection
     {
-        LEFT = -1,
-        RIGHT = 1
+        Left = -1,
+        Right = 1,
+        Straight = 0
     }
 
     // Use this for initialization
@@ -28,17 +29,17 @@ public class PlayerMovement : MonoBehaviour
 
     public void JumpLeft()
     {
-        Jump((int)JumpDirection.LEFT);
+        Jump((int)JumpDirection.Left);
     }
 
     public void JumpRight()
     {
-        Jump((int)JumpDirection.RIGHT);
+        Jump((int)JumpDirection.Right);
     }
     
     public void JumpUp()
     {
-        Jump(0);
+        Jump((int)JumpDirection.Straight);
     }
 
     public void Drop()

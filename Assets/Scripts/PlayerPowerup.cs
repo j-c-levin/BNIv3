@@ -19,6 +19,7 @@ public class PlayerPowerup : MonoBehaviour
     private IPowerupController powerupController;
     private int powerupLayer = 9;
     private int playerId;
+    
     public void Start()
     {
         powerupController = GameObject.FindGameObjectWithTag("GameController").GetComponent<IPowerupController>();

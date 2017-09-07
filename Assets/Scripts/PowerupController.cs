@@ -40,12 +40,12 @@ public class PowerupController : MonoBehaviour, IPowerupController
         PlayerPowerup.Powerup power = GetPowerupForPlayer(playerId);
         if (power == PlayerPowerup.Powerup.None)
         {
-            Debug.LogError("playerid " + playerId + " trying to use powerup they don't have");
+            Debug.LogError("player id " + playerId + " trying to use powerup they don't have");
             return;
         }
         // Remove the powerup
         hasPowerupDictionary[playerId] = PlayerPowerup.Powerup.None;
-        // Iterate and use the powerup on every player
+        // Iterate and let each player handle how the power up affects it
         foreach (KeyValuePair<int, GameObject> entry in playersDictionary)
         {
             entry.Value.GetComponent<PlayerPowerup>().UsePowerup(playerId, power);
