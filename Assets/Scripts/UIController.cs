@@ -8,7 +8,8 @@ public class UIController : MonoBehaviour
     public GameObject endOfRace;
     public Text scoreText;
 
-    public void Start() {
+    public void Start()
+    {
         endOfRace.gameObject.SetActive(false);
     }
 
@@ -31,6 +32,8 @@ public class UIController : MonoBehaviour
     {
         // Deactivate the button
         endOfRace.gameObject.SetActive(false);
+        // Reset the collectables
+        GetComponent<SpawnController>().ResetRace();
         // Move camera and players back to the start
         GameObject cam = GameObject.FindGameObjectWithTag("MainCamera");
         GameObject player = GameObject.FindGameObjectWithTag("Player");

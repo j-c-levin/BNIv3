@@ -6,6 +6,8 @@ using NDream.AirConsole;
 public class SpawnController : MonoBehaviour, ISpawnController
 {
     public GameObject playerPrefab;
+    public GameObject diamonds;
+    public GameObject powerups;
     public Dictionary<int, GameObject> players;
     private GameObject spawn;
     private Vector3 spawnPosition
@@ -19,6 +21,8 @@ public class SpawnController : MonoBehaviour, ISpawnController
     }
     private Color[] colours = new Color[] { Color.red, Color.cyan, Color.green, Color.magenta, Color.yellow, Color.white };
     private int colourNumber = 0;
+    private GameObject spawnedDiamonds;
+    private GameObject spawnedPowerups;
 
     public void Start()
     {
@@ -26,12 +30,27 @@ public class SpawnController : MonoBehaviour, ISpawnController
         spawn = GameObject.FindGameObjectWithTag("MainCamera");
         AirConsole.instance.onConnect += OnConnect;
         AirConsole.instance.onDisconnect += OnDisconnect;
+        ResetRace();
     }
 
     public void SpawnPlayer(GameObject player)
     {
         player.transform.position = spawnPosition;
         player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+    }
+
+    public void ResetRace()
+    {
+        if (spawnedDiamonds != null)
+        {
+            Destroy(spawnedDiamonds.gameObject);
+        }
+        if (spawnedPowerups != null)
+        {
+            Destroy(spawnedPowerups);
+        }
+        spawnedDiamonds = Instantiate(diamonds, diamonds.transform.position, Quaternion.identity);
+        spawnedPowerups = Instantiate(powerups, powerups.transform.position, Quaternion.identity);
     }
 
     private void OnConnect(int playerId)
