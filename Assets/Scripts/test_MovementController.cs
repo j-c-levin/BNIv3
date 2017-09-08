@@ -6,10 +6,10 @@ public class test_MovementController : MonoBehaviour, IMovementController
 {
     public PlayerMovement player;
     private IPowerupController powerupController;
-    private bool readyToJump = true;
+    private bool readyToJump = false;
     MovementController.PlayerInput input;
 
-    void Start()
+    void OnEnable()
     {
         powerupController = GetComponent<IPowerupController>();
         if (powerupController == null)
@@ -17,6 +17,7 @@ public class test_MovementController : MonoBehaviour, IMovementController
             Debug.LogError("Power up controller not found");
         }
         input = new MovementController.PlayerInput();
+        player.JumpUp();
     }
 
     // Update is called once per frame

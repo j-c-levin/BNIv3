@@ -24,7 +24,6 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.LogError("No rigidbody found on player");
         }
-        JumpUp();
     }
 
     public void JumpLeft()
