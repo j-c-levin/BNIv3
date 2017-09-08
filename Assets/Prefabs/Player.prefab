@@ -133,7 +133,7 @@ MonoBehaviour:
   noodlerScale: 25
   facelaserLazer: {fileID: 1202512740286200, guid: a38698112c32caf48a9f66bdfd1fde88,
     type: 2}
-  facelaserFireRate: 0.3
+  facelaserFireRate: 0.8
 --- !u!114 &114992488267767186
 MonoBehaviour:
   m_ObjectHideFlags: 1

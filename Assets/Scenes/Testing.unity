@@ -951,7 +951,7 @@ MonoBehaviour:
   raceStartLerpSpeed: 0.05
   raceStartCounterMax: 100
   raceStartCounterMin: 0
-  raceStartModifier: 80
+  raceStartModifier: 70
 --- !u!114 &1744330888 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114700554779347276, guid: b9438462fa33b474abc09bc9cd10bd3f,

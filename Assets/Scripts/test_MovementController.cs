@@ -23,14 +23,14 @@ public class test_MovementController : MonoBehaviour, IMovementController
     // Update is called once per frame
     void Update()
     {
-        bool drop = Input.GetKey(KeyCode.Space);
+        bool powerup = Input.GetKey(KeyCode.Space);
         float movement = Input.GetAxisRaw("Horizontal");
-        if (readyToJump && movement == 0 && drop == false)
+        if (readyToJump && movement == 0 && powerup == false)
         {
             // not moving, do nothing
             return;
         }
-        if (readyToJump == false && movement == 0 && drop == false)
+        if (readyToJump == false && movement == 0 && powerup == false)
         {
             readyToJump = true;
             return;
@@ -41,17 +41,11 @@ public class test_MovementController : MonoBehaviour, IMovementController
             input.rightButton = false;
             return;
         }
-        if (drop && powerupController.HasPowerup(0))
+        if (powerup && powerupController.HasPowerup(0))
         {
             input.leftButton = true;
             input.rightButton = true;
             powerupController.UsePowerup(0);
-        }
-        else if (drop)
-        {
-            input.leftButton = true;
-            input.rightButton = true;
-            player.Drop();
         }
         if (movement > 0)
         {

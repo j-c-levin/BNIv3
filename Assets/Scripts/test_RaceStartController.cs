@@ -12,12 +12,10 @@ public class test_RaceStartController : MonoBehaviour
     public float raceStartModifier;
     private float currentRaceStartCount;
     private bool readyToJump = true;
-    MovementController.PlayerInput input;
     bool isReadyForRace = false;
 
     void Start()
     {
-        input = new MovementController.PlayerInput();
         GetComponent<test_MovementController>().enabled = false;
         currentRaceStartCount = 0;
     }

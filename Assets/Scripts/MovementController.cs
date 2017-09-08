@@ -11,9 +11,17 @@ public class MovementController : MonoBehaviour, IMovementController
         public bool leftButton;
         public bool rightButton;
     }
+    public Dictionary<int, GameObject> Players
+    {
+        get
+        {
+            return game;
+        }
+    }
     private Dictionary<int, GameObject> game;
     private Dictionary<int, PlayerInput> playerInput;
     private PowerupController powerupController;
+    private bool isRaceRunning = false;
 
     public void Start()
     {
@@ -27,18 +35,18 @@ public class MovementController : MonoBehaviour, IMovementController
 
     public void Update()
     {
+        if (isRaceRunning == false)
+        {
+            return;
+        }
         foreach (KeyValuePair<int, GameObject> entry in game)
         {
             PlayerMovement player = entry.Value.GetComponent<PlayerMovement>();
             PlayerInput input = GetInputForPlayer(entry.Key);
-            bool drop = input.leftButton && input.rightButton;
-            if (drop && powerupController.HasPowerup(entry.Key))
+            bool powerup = input.leftButton && input.rightButton;
+            if (powerup && powerupController.HasPowerup(entry.Key))
             {
                 powerupController.UsePowerup(entry.Key);
-            }
-            else if (drop)
-            {
-                player.Drop();
             }
             else
             {
@@ -56,6 +64,11 @@ public class MovementController : MonoBehaviour, IMovementController
         }
     }
 
+    public void SetRaceRunning(bool running)
+    {
+        isRaceRunning = running;
+    }
+
     public PlayerInput GetInputForPlayer(int playerId)
     {
         PlayerInput playerInput;
@@ -68,6 +81,11 @@ public class MovementController : MonoBehaviour, IMovementController
 
     private void OnMessage(int playerId, JToken data)
     {
+        if (data["handshake"] != null)
+        {
+            Debug.Log("handshake, ignoring");
+            return;
+        }
         string name = (string)data["element"];
         if (name == "Null")
         {
@@ -75,11 +93,11 @@ public class MovementController : MonoBehaviour, IMovementController
         }
         if (name == "left")
         {
-            playerInput[playerId].leftButton = true;
+            playerInput[playerId].leftButton = (bool)data["data"]["pressed"];
         }
         else
         {
-            playerInput[playerId].rightButton = true;
+            playerInput[playerId].rightButton = (bool)data["data"]["pressed"];
         }
     }
 
