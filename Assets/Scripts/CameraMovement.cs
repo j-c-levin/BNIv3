@@ -8,6 +8,7 @@ public class CameraMovement : MonoBehaviour
     public delegate void reachedDestination();
     public reachedDestination destinationReachedDelegate;
     private Transform target;
+    
     public void FixedUpdate()
     {
         if (target != null)
@@ -18,15 +19,15 @@ public class CameraMovement : MonoBehaviour
             transform.position = newPosition;
             if (CameraAtTarget() && DelegateAssigned())
             {
-				target = null;
+                target = null;
                 destinationReachedDelegate();
             }
         }
     }
-    
+
     public void SetTarget(GameObject target)
     {
-		this.target = target.transform;
+        this.target = target.transform;
     }
 
     private bool CameraAtTarget()

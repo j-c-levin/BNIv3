@@ -5,5 +5,4 @@ using UnityEngine;
 public interface IScoreController  {
 	void CollectedDiamond(int playerId, Collider2D diamond);
 	void PlayerDeath(int playerId);
-	
 }

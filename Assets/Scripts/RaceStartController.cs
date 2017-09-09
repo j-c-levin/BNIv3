@@ -15,6 +15,7 @@ public class RaceStartController : MonoBehaviour
     private Dictionary<int, float> playersReady;
     private Dictionary<int, bool> isPlayerReady;
     private bool isRaceRunning = false;
+    
     void Start()
     {
         AirConsole.instance.onConnect += OnConnect;

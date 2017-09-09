@@ -7,6 +7,7 @@ public class PlayerScore : MonoBehaviour
     public int playerId;
     private IScoreController scoreController;
     private int diamondLayer = 8;
+    
     public void Start()
     {
         scoreController = GameObject.FindGameObjectWithTag("GameController").GetComponent<IScoreController>();

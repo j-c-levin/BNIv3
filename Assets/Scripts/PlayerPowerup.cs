@@ -56,6 +56,7 @@ public class PlayerPowerup : MonoBehaviour
                 break;
         }
     }
+    
     private void Facelaser(int castingPlayerId)
     {
         if (playerId == castingPlayerId)

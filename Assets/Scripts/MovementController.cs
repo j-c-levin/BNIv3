@@ -15,17 +15,17 @@ public class MovementController : MonoBehaviour, IMovementController
     {
         get
         {
-            return game;
+            return players;
         }
     }
-    private Dictionary<int, GameObject> game;
+    private Dictionary<int, GameObject> players;
     private Dictionary<int, PlayerInput> playerInput;
     private PowerupController powerupController;
     private bool isRaceRunning = false;
 
     public void Start()
     {
-        game = GetComponent<SpawnController>().players;
+        players = GetComponent<SpawnController>().players;
         powerupController = GetComponent<PowerupController>();
         playerInput = new Dictionary<int, PlayerInput>();
         AirConsole.instance.onMessage += OnMessage;
@@ -39,7 +39,7 @@ public class MovementController : MonoBehaviour, IMovementController
         {
             return;
         }
-        foreach (KeyValuePair<int, GameObject> entry in game)
+        foreach (KeyValuePair<int, GameObject> entry in players)
         {
             PlayerMovement player = entry.Value.GetComponent<PlayerMovement>();
             PlayerInput input = GetInputForPlayer(entry.Key);
@@ -81,7 +81,7 @@ public class MovementController : MonoBehaviour, IMovementController
 
     public void ResetRace()
     {
-        foreach (KeyValuePair<int, GameObject> entry in game)
+        foreach (KeyValuePair<int, GameObject> entry in players)
         {
             entry.Value.transform.position = Vector3.zero;
             entry.Value.GetComponent<PlayerMovement>().JumpUp();

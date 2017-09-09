@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour
     public GameObject target2;
     private CameraMovement gameCamera;
     private bool endOfRace;
-    // Use this for initialization
+    
     public void Start()
     {
         gameCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
