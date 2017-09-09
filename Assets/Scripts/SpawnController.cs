@@ -9,12 +9,12 @@ public class SpawnController : MonoBehaviour, ISpawnController
     public GameObject diamonds;
     public GameObject powerups;
     public Dictionary<int, GameObject> players;
-    private GameObject spawn;
+    private GameObject gameCamera;
     private Vector3 spawnPosition
     {
         get
         {
-            Vector3 spawnPosition = spawn.transform.position;
+            Vector3 spawnPosition = gameCamera.transform.position;
             spawnPosition.z = 0;
             return spawnPosition;
         }
@@ -27,7 +27,7 @@ public class SpawnController : MonoBehaviour, ISpawnController
     public void Start()
     {
         players = new Dictionary<int, GameObject>();
-        spawn = GameObject.FindGameObjectWithTag("MainCamera");
+        gameCamera = GameObject.FindGameObjectWithTag("MainCamera");
         AirConsole.instance.onConnect += OnConnect;
         AirConsole.instance.onDisconnect += OnDisconnect;
         ResetRace();
@@ -35,8 +35,12 @@ public class SpawnController : MonoBehaviour, ISpawnController
 
     public void SpawnPlayer(GameObject player)
     {
-        player.transform.position = spawnPosition;
-        player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+        int playerId = player.GetComponentInChildren<PlayerScore>().playerId;
+        Color colour = player.GetComponentInChildren<SpriteRenderer>().color;
+        Destroy(player);
+        players[playerId] = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
+        players[playerId].GetComponentInChildren<PlayerScore>().playerId = playerId;
+        ColourPlayer(players[playerId], colour);
     }
 
     public void ResetRace()
@@ -53,13 +57,21 @@ public class SpawnController : MonoBehaviour, ISpawnController
         spawnedPowerups = Instantiate(powerups, powerups.transform.position, Quaternion.identity);
     }
 
+    private void ColourPlayer(GameObject player, Color colour)
+    {
+        foreach (SpriteRenderer s in player.GetComponentsInChildren<SpriteRenderer>())
+        {
+            s.color = colour;
+        }
+    }
+
     private void OnConnect(int playerId)
     {
         GameObject player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
-        player.GetComponent<SpriteRenderer>().color = colours[colourNumber];
+        ColourPlayer(player, colours[colourNumber]);
         colourNumber += 1;
         colourNumber %= colours.Length;
-        player.GetComponent<PlayerScore>().playerId = playerId;
+        player.GetComponentInChildren<PlayerScore>().playerId = playerId;
         players.Add(playerId, player);
     }
 

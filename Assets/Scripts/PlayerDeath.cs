@@ -57,7 +57,7 @@ public class PlayerDeath : MonoBehaviour
     public void TriggerDeath()
     {
         deathCounter = 0;
-        spawn.SpawnPlayer(this.gameObject);
+        spawn.SpawnPlayer(transform.parent.gameObject);
         int playerId = GetComponent<PlayerScore>().playerId;
         scoreController.PlayerDeath(playerId);
     }

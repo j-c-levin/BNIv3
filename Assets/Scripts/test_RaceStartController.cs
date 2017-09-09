@@ -5,19 +5,17 @@ using UnityEngine;
 public class test_RaceStartController : MonoBehaviour
 {
     public PlayerMovement player;
+    public float neutralForce;
+    public float rotationForce;
     public float raceStartHeight;
-    public float raceStartLerpSpeed;
-    public float raceStartCounterMax;
-    public float raceStartCounterMin;
-    public float raceStartModifier;
-    private float currentRaceStartCount;
+    public float readyUpTimerDuration;
+    private float currentReadyUpTimer = 0;
     private bool readyToJump = true;
     bool isReadyForRace = false;
 
     void Start()
     {
-            GetComponent<test_MovementController>().enabled = false;
-            currentRaceStartCount = 0;
+        GetComponent<test_MovementController>().enabled = false;
     }
 
     void Update()
@@ -28,20 +26,22 @@ public class test_RaceStartController : MonoBehaviour
 
     private void PrepareForRace()
     {
-        player.GetComponent<Rigidbody2D>().simulated = !isReadyForRace;
         if (isReadyForRace)
         {
-            Vector2 startPosition = new Vector2(player.transform.position.x, raceStartHeight);
-            player.transform.position = Vector2.Lerp(player.transform.position, startPosition, raceStartLerpSpeed);
-            player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.identity, raceStartLerpSpeed);
-            currentRaceStartCount += raceStartModifier * Time.deltaTime;
+            float distanceFromStartHeight = raceStartHeight - player.transform.position.y;
+            float upwardForce = neutralForce * ((distanceFromStartHeight > 0) ? 1: 0f);
+            player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, upwardForce);
+            float rotationFromNeutral = (player.transform.rotation.eulerAngles.z <= 180) ? -player.transform.rotation.eulerAngles.z : 360 - player.transform.rotation.eulerAngles.z;
+            float torqueForce = rotationForce * rotationFromNeutral;
+            player.GetComponent<Rigidbody2D>().AddTorque(torqueForce, ForceMode2D.Force);
+            currentReadyUpTimer += Time.deltaTime;
         }
         else
         {
-            currentRaceStartCount -= raceStartModifier * Time.deltaTime;
+            currentReadyUpTimer -= Time.deltaTime;
         }
-        currentRaceStartCount = Mathf.Clamp(currentRaceStartCount, raceStartCounterMin, raceStartCounterMax);
-        if (currentRaceStartCount == raceStartCounterMax)
+        currentReadyUpTimer = Mathf.Clamp(currentReadyUpTimer, 0, readyUpTimerDuration);
+        if (currentReadyUpTimer == readyUpTimerDuration)
         {
             StartRace();
         }
@@ -51,6 +51,7 @@ public class test_RaceStartController : MonoBehaviour
     {
         GetComponent<test_MovementController>().enabled = true;
         player.GetComponent<Rigidbody2D>().simulated = true;
+        player.GetComponent<PlayerMovement>().JumpUp();
         this.enabled = false;
     }
 

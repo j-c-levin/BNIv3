@@ -6,16 +6,16 @@ using NDream.AirConsole;
 public class RaceStartController : MonoBehaviour
 {
     public float raceStartHeight;
-    public float raceStartCounterSpeed;
-    public float raceStartLerpSpeed;
-    public float raceStartCounterMax;
-    public float raceStartCounterMin;
+    public float readyUpTimerDuration;
     public GameObject startArea;
+    public float neutralForce;
+    public float rotationForce;
     private MovementController movementController;
+    private SpawnController spawnController;
     private Dictionary<int, float> playersReady;
     private Dictionary<int, bool> isPlayerReady;
     private bool isRaceRunning = false;
-    
+
     void Start()
     {
         AirConsole.instance.onConnect += OnConnect;
@@ -25,8 +25,13 @@ public class RaceStartController : MonoBehaviour
         {
             Debug.LogError("Movement controller not attached");
         }
+        spawnController = GetComponent<SpawnController>();
+        if (spawnController == null)
+        {
+            Debug.LogError("Spawn controller not attached");
+        }
         movementController.SetRaceRunning(false);
-		GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>().enabled = false;
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>().enabled = false;
         playersReady = new Dictionary<int, float>();
         isPlayerReady = new Dictionary<int, bool>();
     }
@@ -38,15 +43,15 @@ public class RaceStartController : MonoBehaviour
             return;
         }
         bool allReadyForRace = true;
-        foreach (KeyValuePair<int, GameObject> entry in movementController.Players)
+        foreach (KeyValuePair<int, GameObject> entry in spawnController.players)
         {
             PlayerMovement(entry);
-            if (playersReady[entry.Key] != raceStartCounterMax)
+            if (playersReady[entry.Key] != readyUpTimerDuration)
             {
                 allReadyForRace = false;
             }
         }
-        if (allReadyForRace && movementController.Players.Count > 0)
+        if (allReadyForRace && spawnController.players.Count > 0)
         {
             StartRace();
         }
@@ -55,25 +60,23 @@ public class RaceStartController : MonoBehaviour
     private void StartRace()
     {
         movementController.SetRaceRunning(true);
-        foreach (KeyValuePair<int, GameObject> entry in movementController.Players)
+        foreach (KeyValuePair<int, GameObject> entry in spawnController.players)
         {
-            entry.Value.GetComponent<Rigidbody2D>().simulated = true;
-			entry.Value.GetComponent<PlayerMovement>().JumpUp();
+            entry.Value.GetComponentInChildren<PlayerMovement>().JumpUp();
         }
         startArea.SetActive(false);
-		GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>().enabled = true;
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>().enabled = true;
         this.enabled = false;
     }
 
     private void PlayerMovement(KeyValuePair<int, GameObject> entry)
     {
-        PlayerMovement player = entry.Value.GetComponent<PlayerMovement>();
+        PlayerMovement player = entry.Value.GetComponentInChildren<PlayerMovement>();
         MovementController.PlayerInput input = movementController.GetInputForPlayer(entry.Key);
         bool ready = input.leftButton && input.rightButton;
         if (ready)
         {
             isPlayerReady[entry.Key] = true;
-            player.GetComponent<Rigidbody2D>().simulated = false;
         }
         else
         {
@@ -81,13 +84,11 @@ public class RaceStartController : MonoBehaviour
             {
                 isPlayerReady[entry.Key] = false;
                 player.JumpRight();
-                player.GetComponent<Rigidbody2D>().simulated = true;
             }
             else if (input.leftButton)
             {
                 isPlayerReady[entry.Key] = false;
                 player.JumpLeft();
-                player.GetComponent<Rigidbody2D>().simulated = true;
             }
         }
         playerReadyUp(entry);
@@ -99,17 +100,20 @@ public class RaceStartController : MonoBehaviour
     {
         if (isPlayerReady[entry.Key] == false)
         {
-            playersReady[entry.Key] -= raceStartCounterSpeed * Time.deltaTime;
+            playersReady[entry.Key] -= Time.deltaTime;
         }
         else
         {
-            GameObject player = entry.Value;
-            Vector2 startPosition = new Vector2(player.transform.position.x, raceStartHeight);
-            player.transform.position = Vector2.Lerp(player.transform.position, startPosition, raceStartLerpSpeed);
-            player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.identity, raceStartLerpSpeed);
-            playersReady[entry.Key] += raceStartCounterSpeed * Time.deltaTime;
+            GameObject player = entry.Value.GetComponentInChildren<PlayerMovement>().gameObject;
+            float distanceFromStartHeight = raceStartHeight - player.transform.position.y;
+            float upwardForce = neutralForce * ((distanceFromStartHeight > 0) ? 1 : 0f);
+            player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, upwardForce);
+            float rotationFromNeutral = (player.transform.rotation.eulerAngles.z <= 180) ? -player.transform.rotation.eulerAngles.z : 360 - player.transform.rotation.eulerAngles.z;
+            float torqueForce = rotationForce * rotationFromNeutral;
+            player.GetComponent<Rigidbody2D>().AddTorque(torqueForce, ForceMode2D.Force);
+            playersReady[entry.Key] += Time.deltaTime;
         }
-        playersReady[entry.Key] = Mathf.Clamp(playersReady[entry.Key], raceStartCounterMin, raceStartCounterMax);
+        playersReady[entry.Key] = Mathf.Clamp(playersReady[entry.Key], 0, readyUpTimerDuration);
     }
 
 

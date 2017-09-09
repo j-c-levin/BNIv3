@@ -1389,11 +1389,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raceStartHeight: 0
-  raceStartCounterSpeed: 50
-  raceStartLerpSpeed: 0.07
-  raceStartCounterMax: 100
-  raceStartCounterMin: 0
+  readyUpTimerDuration: 3
   startArea: {fileID: 1834054886}
+  neutralForce: 10
+  rotationForce: 0.1
 --- !u!1 &842115604
 GameObject:
   m_ObjectHideFlags: 0

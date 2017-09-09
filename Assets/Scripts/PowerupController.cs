@@ -6,12 +6,12 @@ using NDream.AirConsole;
 
 public class PowerupController : MonoBehaviour, IPowerupController
 {
-    private Dictionary<int, GameObject> playersDictionary;
+    private SpawnController spawnController;
     private Dictionary<int, PlayerPowerup.Powerup> hasPowerupDictionary;
 
     public void Start()
     {
-        playersDictionary = GetComponent<SpawnController>().players;
+        spawnController = GetComponent<SpawnController>();
         hasPowerupDictionary = new Dictionary<int, PlayerPowerup.Powerup>();
         AirConsole.instance.onConnect += OnConnect;
         AirConsole.instance.onDisconnect += OnDisconnect;
@@ -46,9 +46,9 @@ public class PowerupController : MonoBehaviour, IPowerupController
         // Remove the powerup
         hasPowerupDictionary[playerId] = PlayerPowerup.Powerup.None;
         // Iterate and let each player handle how the power up affects it
-        foreach (KeyValuePair<int, GameObject> entry in playersDictionary)
+        foreach (KeyValuePair<int, GameObject> entry in spawnController.players)
         {
-            entry.Value.GetComponent<PlayerPowerup>().UsePowerup(playerId, power);
+            entry.Value.GetComponentInChildren<PlayerPowerup>().UsePowerup(playerId, power);
         }
     }
 

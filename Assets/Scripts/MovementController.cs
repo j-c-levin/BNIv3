@@ -11,21 +11,14 @@ public class MovementController : MonoBehaviour, IMovementController
         public bool leftButton;
         public bool rightButton;
     }
-    public Dictionary<int, GameObject> Players
-    {
-        get
-        {
-            return players;
-        }
-    }
-    private Dictionary<int, GameObject> players;
+    private SpawnController spawnController;
     private Dictionary<int, PlayerInput> playerInput;
     private PowerupController powerupController;
     private bool isRaceRunning = false;
 
     public void Start()
     {
-        players = GetComponent<SpawnController>().players;
+        spawnController = GetComponent<SpawnController>();
         powerupController = GetComponent<PowerupController>();
         playerInput = new Dictionary<int, PlayerInput>();
         AirConsole.instance.onMessage += OnMessage;
@@ -39,9 +32,9 @@ public class MovementController : MonoBehaviour, IMovementController
         {
             return;
         }
-        foreach (KeyValuePair<int, GameObject> entry in players)
+        foreach (KeyValuePair<int, GameObject> entry in spawnController.players)
         {
-            PlayerMovement player = entry.Value.GetComponent<PlayerMovement>();
+            PlayerMovement player = entry.Value.GetComponentInChildren<PlayerMovement>();
             PlayerInput input = GetInputForPlayer(entry.Key);
             bool powerup = input.leftButton && input.rightButton && powerupController.HasPowerup(entry.Key);
             if (powerup)
@@ -81,10 +74,10 @@ public class MovementController : MonoBehaviour, IMovementController
 
     public void ResetRace()
     {
-        foreach (KeyValuePair<int, GameObject> entry in players)
+        foreach (KeyValuePair<int, GameObject> entry in spawnController.players)
         {
             entry.Value.transform.position = Vector3.zero;
-            entry.Value.GetComponent<PlayerMovement>().JumpUp();
+            entry.Value.GetComponentInChildren<PlayerMovement>().JumpUp();
         }
     }
 

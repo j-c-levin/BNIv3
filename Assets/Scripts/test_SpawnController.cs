@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class test_SpawnController : MonoBehaviour, ISpawnController
 {
+    public GameObject playerPrefab;
     public void SpawnPlayer(GameObject player)
     {
-        player.transform.position = Vector3.zero;
+        Destroy(player);
+        Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
     }
 }
