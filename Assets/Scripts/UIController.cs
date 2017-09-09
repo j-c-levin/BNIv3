@@ -36,14 +36,9 @@ public class UIController : MonoBehaviour
         GetComponent<SpawnController>().ResetRace();
         // Reset scores
         GetComponent<ScoreController>().ResetRace();
-        // Move camera and players back to the start
-        GameObject cam = GameObject.FindGameObjectWithTag("MainCamera");
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        cam.transform.position = new Vector3(0, 0, cam.transform.position.z);
-        player.transform.position = Vector3.zero;
-        // Give the player a starting boost
-        player.GetComponent<PlayerMovement>().JumpUp();
-        // Start the camera again
-        GetComponent<CameraController>().Start();
+        // Reset camera
+        GetComponent<CameraController>().ResetRace();
+        // Reset players
+        GetComponent<MovementController>().ResetRace();
     }
 }

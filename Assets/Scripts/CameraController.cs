@@ -13,10 +13,22 @@ public class CameraController : MonoBehaviour
     {
         gameCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
         gameCamera.destinationReachedDelegate = DestinationSwap;
-        gameCamera.SetTarget(target1);
-		endOfRace = false;
+        StartRace();
     }
-    
+
+    public void ResetRace()
+    {
+        gameCamera.transform.position = new Vector3(0, 0, gameCamera.transform.position.z);
+        // Start the camera again
+        StartRace();
+    }
+
+    private void StartRace()
+    {
+        gameCamera.SetTarget(target1);
+        endOfRace = false;
+    }
+
     private void DestinationSwap()
     {
         if (endOfRace == false)
@@ -26,7 +38,7 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-			GetComponent<UIController>().EndOfRace();
+            GetComponent<UIController>().EndOfRace();
         }
     }
 }

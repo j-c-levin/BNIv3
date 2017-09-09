@@ -43,8 +43,8 @@ public class MovementController : MonoBehaviour, IMovementController
         {
             PlayerMovement player = entry.Value.GetComponent<PlayerMovement>();
             PlayerInput input = GetInputForPlayer(entry.Key);
-            bool powerup = input.leftButton && input.rightButton;
-            if (powerup && powerupController.HasPowerup(entry.Key))
+            bool powerup = input.leftButton && input.rightButton && powerupController.HasPowerup(entry.Key);
+            if (powerup)
             {
                 powerupController.UsePowerup(entry.Key);
             }
@@ -79,23 +79,27 @@ public class MovementController : MonoBehaviour, IMovementController
         return playerInput;
     }
 
+    public void ResetRace()
+    {
+        foreach (KeyValuePair<int, GameObject> entry in game)
+        {
+            entry.Value.transform.position = Vector3.zero;
+            entry.Value.GetComponent<PlayerMovement>().JumpUp();
+        }
+    }
+
     private void OnMessage(int playerId, JToken data)
     {
         if (data["handshake"] != null)
         {
-            Debug.Log("handshake, ignoring");
             return;
         }
-        string name = (string)data["element"];
-        if (name == "Null")
-        {
-            return;
-        }
-        if (name == "left")
+        string direction = (string)data["element"];
+        if (direction == "left")
         {
             playerInput[playerId].leftButton = (bool)data["data"]["pressed"];
         }
-        else
+        else if (direction == "right")
         {
             playerInput[playerId].rightButton = (bool)data["data"]["pressed"];
         }
