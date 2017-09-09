@@ -19,7 +19,7 @@ public class SpawnController : MonoBehaviour, ISpawnController
             return spawnPosition;
         }
     }
-    private Color[] colours = new Color[] { Color.red, Color.cyan, Color.green, Color.magenta, Color.yellow, Color.white, Color.black, Color.gray, Color. };
+    private Color[] colours = new Color[] { Color.red, Color.cyan, Color.green, Color.magenta, Color.yellow, Color.white, Color.black, Color.gray };
     private int colourNumber = 0;
     private GameObject spawnedDiamonds;
     private GameObject spawnedPowerups;
