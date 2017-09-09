@@ -101,11 +101,12 @@ public class PlayerPowerup : MonoBehaviour
     private void createLazer(float direction)
     {
         GameObject laser = Instantiate(facelaserLazer, Vector3.zero, Quaternion.identity);
+        Vector3 size = laser.transform.localScale;
         laser.transform.SetParent(transform);
         laser.transform.localPosition = Vector3.zero;
         laser.transform.rotation = transform.rotation;
-        laser.transform.localScale = Vector3.one;
         laser.transform.SetParent(null);
+        laser.transform.localScale = size;
         laser.transform.Rotate(0, 0, direction);
         laser.GetComponent<Facelaser>().castingPlayerId = playerId;
     }

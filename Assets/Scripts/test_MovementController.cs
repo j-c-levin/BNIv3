@@ -17,7 +17,6 @@ public class test_MovementController : MonoBehaviour, IMovementController
             Debug.LogError("Power up controller not found");
         }
         input = new MovementController.PlayerInput();
-        player.JumpUp();
     }
 
     // Update is called once per frame

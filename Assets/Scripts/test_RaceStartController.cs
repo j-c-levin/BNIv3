@@ -16,8 +16,8 @@ public class test_RaceStartController : MonoBehaviour
 
     void Start()
     {
-        GetComponent<test_MovementController>().enabled = false;
-        currentRaceStartCount = 0;
+            GetComponent<test_MovementController>().enabled = false;
+            currentRaceStartCount = 0;
     }
 
     void Update()

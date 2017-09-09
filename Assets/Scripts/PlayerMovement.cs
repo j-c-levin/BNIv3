@@ -7,7 +7,6 @@ public class PlayerMovement : MonoBehaviour
 {
     public float horizontalMovementSpeed;
     public float jumpSpeed;
-    public float dropSpeed;
     private Rigidbody2D player;
     private enum JumpDirection
     {
@@ -39,11 +38,6 @@ public class PlayerMovement : MonoBehaviour
     public void JumpUp()
     {
         Jump((int)JumpDirection.Straight);
-    }
-
-    public void Drop()
-    {
-        player.velocity = new Vector2(0, -dropSpeed);
     }
 
     private void Jump(int direction)
