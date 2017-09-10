@@ -9,6 +9,15 @@ public class test_PowerupController : MonoBehaviour, IPowerupController
     public PlayerPowerup player;
     public bool shouldDestroyPowerup;
     bool playerHasPowerup = false;
+    public float overridePowerupDuration = -1f;
+
+    public void Start()
+    {
+        if (overridePowerupDuration != -1)
+        {
+            player.generalPowerupDuration = overridePowerupDuration;
+        }
+    } 
 
     public void CollectedPowerup(int playerId, Collider2D powerup)
     {

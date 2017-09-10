@@ -13,13 +13,13 @@ public class PlayerPowerup : MonoBehaviour
     }
     public float generalPowerupDuration;
     public float jupiterJumpGravity;
-    public float noodlerScale;
+    public GameObject noodlerArms;
     public GameObject facelaserLazer;
     public float facelaserFireRate;
     private IPowerupController powerupController;
     private int powerupLayer = 9;
     private int playerId;
-    
+
     public void Start()
     {
         powerupController = GameObject.FindGameObjectWithTag("GameController").GetComponent<IPowerupController>();
@@ -56,7 +56,7 @@ public class PlayerPowerup : MonoBehaviour
                 break;
         }
     }
-    
+
     private void Facelaser(int castingPlayerId)
     {
         if (playerId == castingPlayerId)
@@ -121,11 +121,17 @@ public class PlayerPowerup : MonoBehaviour
 
     private IEnumerator JupiterJumpRoutine()
     {
-        Rigidbody2D player = GetComponent<Rigidbody2D>();
-        float originalGravity = player.gravityScale;
-        player.gravityScale = jupiterJumpGravity;
+        Rigidbody2D[] rigidbodies = transform.parent.GetComponentsInChildren<Rigidbody2D>();
+        float originalGravity = rigidbodies[0].gravityScale;
+        foreach (Rigidbody2D r in rigidbodies)
+        {
+            r.gravityScale = jupiterJumpGravity;
+        }
         yield return new WaitForSeconds(generalPowerupDuration);
-        player.gravityScale = originalGravity;
+        foreach (Rigidbody2D r in rigidbodies)
+        {
+            r.gravityScale = originalGravity;
+        }
     }
 
     private void Noodler(int castingPlayerId)
@@ -138,9 +144,36 @@ public class PlayerPowerup : MonoBehaviour
 
     private IEnumerator NoodlerRoutine()
     {
-        float originalScale = transform.localScale.y;
-        transform.localScale = new Vector2(transform.localScale.x, noodlerScale);
+        float originalScale = 0;
+        Rigidbody2D[] bodyParts = transform.parent.GetComponentsInChildren<Rigidbody2D>();
+        List<GameObject> arms = new List<GameObject>();
+        foreach (Rigidbody2D r in bodyParts)
+        {
+            if (r.gameObject.tag == "player_arm")
+            {
+                r.gameObject.SetActive(false);
+                GameObject arm = Instantiate(noodlerArms, transform.position, noodlerArms.transform.rotation);
+                arm.transform.SetParent(transform.parent);
+                float armPosition = noodlerArms.transform.position.x * ((arms.Count == 0) ? 1: -1);
+                arm.transform.localPosition = new Vector2(armPosition, noodlerArms.transform.position.y);
+                HingeJoint2D hinge = arm.GetComponent<HingeJoint2D>();
+                hinge.connectedBody = GetComponent<Rigidbody2D>();
+                float armAnchor = hinge.anchor.y * ((arms.Count == 0) ? 1 : -1);
+                hinge.anchor = new Vector2(hinge.anchor.x, armAnchor);
+                arms.Add(arm);
+            }
+        }
         yield return new WaitForSeconds(generalPowerupDuration);
-        transform.localScale = new Vector2(transform.localScale.x, originalScale);
+        foreach (Rigidbody2D r in bodyParts)
+        {
+            if (r.gameObject.tag == "player_arm")
+            {
+                r.gameObject.SetActive(true);
+            }
+        }
+        foreach (GameObject arm in arms)
+        {
+            Destroy(arm);
+        }
     }
 }
