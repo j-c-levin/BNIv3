@@ -4,33 +4,41 @@ using UnityEngine;
 
 public class test_PowerupController : MonoBehaviour, IPowerupController
 {
+    public bool playerAlwaysHasPowerup;
     public PlayerPowerup.Powerup powerup;
     public bool didPlayerCastPowerup;
     public PlayerPowerup player;
     public bool shouldDestroyPowerup;
-    bool playerHasPowerup = false;
-    public float overridePowerupDuration = -1f;
+    public powerupDuration overridePowerupDuration;
+    public enum powerupDuration
+    {
+        Off,
+        Short = 2,
+        Infinite = 10000
+    }
+    private bool playerHasPowerup = false;
 
     public void Start()
     {
-        if (overridePowerupDuration != -1)
+        if (overridePowerupDuration != powerupDuration.Off)
         {
-            player.generalPowerupDuration = overridePowerupDuration;
+            player.generalPowerupDuration = (int)overridePowerupDuration;
         }
-    } 
+    }
 
-    public void CollectedPowerup(int playerId, Collider2D powerup)
+    public PlayerPowerup.Powerup CollectedPowerup(int playerId, Collider2D powerup)
     {
         playerHasPowerup = true;
         if (shouldDestroyPowerup)
         {
             Destroy(powerup.gameObject);
         }
+        return this.powerup;
     }
 
     public bool HasPowerup(int playerId)
     {
-        return playerHasPowerup;
+        return playerHasPowerup || playerAlwaysHasPowerup;
     }
 
     public void UsePowerup(int playerId)

@@ -8,12 +8,13 @@ public class PlayerPowerup : MonoBehaviour
     {
         None,
         JupiterJump,
-        Noodler,
-        Facelaser
+        Noodler
     }
+    // Facelaser removed pending rethink
     public float generalPowerupDuration;
     public float jupiterJumpGravity;
-    public GameObject noodlerArms;
+    public GameObject leftNoodlerArm;
+    public GameObject rightNoodlerArm;
     public GameObject facelaserLazer;
     public float facelaserFireRate;
     private IPowerupController powerupController;
@@ -34,12 +35,17 @@ public class PlayerPowerup : MonoBehaviour
     {
         if (collider.gameObject.layer == powerupLayer)
         {
-            powerupController.CollectedPowerup(playerId, collider);
+            Powerup powerup = powerupController.CollectedPowerup(playerId, collider);
+            if (powerup != Powerup.None)
+            {  
+                transform.parent.GetComponentInChildren<PowerupUI>().CollectedPowerup(powerup);
+            }
         }
     }
 
     public void UsePowerup(int castingPlayerId, Powerup power)
     {
+        transform.parent.GetComponentInChildren<PowerupUI>().UsePowerup();
         switch (power)
         {
             case Powerup.JupiterJump:
@@ -48,9 +54,9 @@ public class PlayerPowerup : MonoBehaviour
             case Powerup.Noodler:
                 Noodler(castingPlayerId);
                 break;
-            case Powerup.Facelaser:
-                Facelaser(castingPlayerId);
-                break;
+            // case Powerup.Facelaser:
+            //     Facelaser(castingPlayerId);
+            //     break;
             default:
                 Debug.LogError("Powerup " + power + " not registered with player powerup");
                 break;
@@ -144,23 +150,29 @@ public class PlayerPowerup : MonoBehaviour
 
     private IEnumerator NoodlerRoutine()
     {
-        float originalScale = 0;
         Rigidbody2D[] bodyParts = transform.parent.GetComponentsInChildren<Rigidbody2D>();
         List<GameObject> arms = new List<GameObject>();
-        foreach (Rigidbody2D r in bodyParts)
+        foreach (Rigidbody2D arm in bodyParts)
         {
-            if (r.gameObject.tag == "player_arm")
+            if (arm.gameObject.tag == "player_arm")
             {
-                r.gameObject.SetActive(false);
-                GameObject arm = Instantiate(noodlerArms, transform.position, noodlerArms.transform.rotation);
-                arm.transform.SetParent(transform.parent);
-                float armPosition = noodlerArms.transform.position.x * ((arms.Count == 0) ? 1: -1);
-                arm.transform.localPosition = new Vector2(armPosition, noodlerArms.transform.position.y);
-                HingeJoint2D hinge = arm.GetComponent<HingeJoint2D>();
-                hinge.connectedBody = GetComponent<Rigidbody2D>();
-                float armAnchor = hinge.anchor.y * ((arms.Count == 0) ? 1 : -1);
-                hinge.anchor = new Vector2(hinge.anchor.x, armAnchor);
-                arms.Add(arm);
+                // Disable the real arms
+                arm.GetComponent<SpriteRenderer>().enabled = false;
+                // Enable the noodlers
+                GameObject armToSpawn = (arms.Count == 0) ? leftNoodlerArm : rightNoodlerArm;
+                GameObject noodler = Instantiate(armToSpawn, transform.position, armToSpawn.transform.rotation);
+                // Position noodlers over arms;
+                noodler.transform.SetParent(arm.transform);
+                noodler.transform.localPosition = Vector3.zero;
+                noodler.transform.localRotation = Quaternion.identity;
+                noodler.transform.SetParent(transform.parent);
+                noodler.transform.localScale = armToSpawn.transform.localScale;
+                HingeJoint2D hinge = noodler.GetComponentInChildren<HingeJoint2D>();
+                hinge.connectedBody = GetComponentInChildren<Rigidbody2D>();
+                // set the hierarchy correctly
+                hinge.transform.SetParent(arm.transform.parent);
+                Destroy(noodler);
+                arms.Add(hinge.gameObject);
             }
         }
         yield return new WaitForSeconds(generalPowerupDuration);
@@ -168,7 +180,8 @@ public class PlayerPowerup : MonoBehaviour
         {
             if (r.gameObject.tag == "player_arm")
             {
-                r.gameObject.SetActive(true);
+                // Disable the real arms
+                r.GetComponent<SpriteRenderer>().enabled = true;
             }
         }
         foreach (GameObject arm in arms)

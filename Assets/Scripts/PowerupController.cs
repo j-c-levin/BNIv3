@@ -17,17 +17,18 @@ public class PowerupController : MonoBehaviour, IPowerupController
         AirConsole.instance.onDisconnect += OnDisconnect;
     }
 
-    public void CollectedPowerup(int playerId, Collider2D powerup)
+    public PlayerPowerup.Powerup CollectedPowerup(int playerId, Collider2D powerup)
     {
         // Only assign a powerup if a player doesn't already have one
         if (GetPowerupForPlayer(playerId) != PlayerPowerup.Powerup.None)
         {
-            return;
+            return PlayerPowerup.Powerup.None;
         }
         int lengthOfPowerupEnum = Enum.GetNames(typeof(PlayerPowerup.Powerup)).Length;
         int ability = UnityEngine.Random.Range(1, lengthOfPowerupEnum);
         hasPowerupDictionary[playerId] = (PlayerPowerup.Powerup)ability;
         Destroy(powerup.gameObject);
+        return (PlayerPowerup.Powerup)ability;
     }
 
     public bool HasPowerup(int playerId)
