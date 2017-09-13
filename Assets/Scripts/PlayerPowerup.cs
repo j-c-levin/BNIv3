@@ -159,7 +159,7 @@ public class PlayerPowerup : MonoBehaviour
                 // Disable the real arms
                 arm.GetComponent<SpriteRenderer>().enabled = false;
                 // Enable the noodlers
-                GameObject armToSpawn = (arms.Count == 0) ? leftNoodlerArm : rightNoodlerArm;
+                GameObject armToSpawn = (arm.name == "l arm") ? leftNoodlerArm : rightNoodlerArm;
                 GameObject noodler = Instantiate(armToSpawn, transform.position, armToSpawn.transform.rotation);
                 // Position noodlers over arms;
                 noodler.transform.SetParent(arm.transform);
