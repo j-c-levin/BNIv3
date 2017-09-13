@@ -18,7 +18,7 @@ public class OffscreenUIController : MonoBehaviour, IOffscreenUIController
 
     public void Start()
     {
-		offscreenIndicators = new Dictionary<int, Image>();
+        offscreenIndicators = new Dictionary<int, Image>();
         spawnController = GetComponent<SpawnController>();
         gameCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         offscreenCanvas = GameObject.FindGameObjectWithTag("OffscreenUI").GetComponent<Canvas>();
@@ -28,7 +28,10 @@ public class OffscreenUIController : MonoBehaviour, IOffscreenUIController
 
     public void PlayerOffscreen(int playerId, bool isOffscreen)
     {
-        offscreenIndicators[playerId].enabled = isOffscreen;
+        if (offscreenIndicators[playerId] != null)
+        {
+            offscreenIndicators[playerId].enabled = isOffscreen;
+        }
     }
 
     public void Update()
@@ -72,6 +75,7 @@ public class OffscreenUIController : MonoBehaviour, IOffscreenUIController
     {
         Image indicator = Instantiate(offscreenIndicatorImage, transform.position, Quaternion.identity);
         indicator.transform.SetParent(offscreenCanvas.transform);
+        indicator.transform.localScale = offscreenIndicatorImage.transform.localScale;
         offscreenIndicators.Add(playerId, indicator);
     }
 

@@ -31,6 +31,7 @@ public class RaceStartController : MonoBehaviour
             Debug.LogError("Spawn controller not attached");
         }
         movementController.SetRaceRunning(false);
+        Debug.Log("Race NOT running");
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>().enabled = false;
         playersReady = new Dictionary<int, float>();
         isPlayerReady = new Dictionary<int, bool>();
@@ -53,6 +54,7 @@ public class RaceStartController : MonoBehaviour
         }
         if (allReadyForRace && spawnController.players.Count > 0)
         {
+            Debug.Log("all ready for race");
             StartRace();
         }
     }
@@ -60,6 +62,7 @@ public class RaceStartController : MonoBehaviour
     private void StartRace()
     {
         movementController.SetRaceRunning(true);
+        Debug.Log("Race running");
         foreach (KeyValuePair<int, GameObject> entry in spawnController.players)
         {
             entry.Value.GetComponentInChildren<PlayerMovement>().JumpUp();
@@ -114,6 +117,7 @@ public class RaceStartController : MonoBehaviour
             playersReady[entry.Key] += Time.deltaTime;
         }
         playersReady[entry.Key] = Mathf.Clamp(playersReady[entry.Key], 0, readyUpTimerDuration);
+        Debug.Log(playersReady[entry.Key]);
     }
 
 
