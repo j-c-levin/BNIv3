@@ -7,7 +7,6 @@ public class test_PowerupController : MonoBehaviour, IPowerupController
     public bool playerAlwaysHasPowerup;
     public PlayerPowerup.Powerup powerup;
     public bool didPlayerCastPowerup;
-    public PlayerPowerup player;
     public bool shouldDestroyPowerup;
     public powerupDuration overridePowerupDuration;
     public enum powerupDuration
@@ -16,10 +15,12 @@ public class test_PowerupController : MonoBehaviour, IPowerupController
         Short = 2,
         Infinite = 10000
     }
+    private PlayerPowerup player;
     private bool playerHasPowerup = false;
 
     public void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerPowerup>();
         if (overridePowerupDuration != powerupDuration.Off)
         {
             player.generalPowerupDuration = (int)overridePowerupDuration;

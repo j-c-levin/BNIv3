@@ -4,41 +4,47 @@ using UnityEngine;
 
 public class PlayerDeath : MonoBehaviour
 {
+    public float deathTimeout;
+    private float deathCounter = 0;
+    private bool isOffScreen = false;
     private ISpawnController spawn;
     private IScoreController scoreController;
-    private float deathCounter = 0;
-    private float deathDurationMax = 100;
-    private float deathDurationMin = 0;
-    private float deathDurationAddition = 2;
-    private float deathDurationReduction = 1;
-    private bool isOffScreen = false;
+    private IOffscreenUIController offscreenUIController;
+    private int playerId;
 
     public void Start()
     {
-        spawn = GameObject.FindGameObjectWithTag("GameController").GetComponent<ISpawnController>();
+        GameObject controller = GameObject.FindGameObjectWithTag("GameController");
+        spawn = controller.GetComponent<ISpawnController>();
         if (spawn == null)
         {
             Debug.Log("Spawn controller not found");
         }
-        scoreController = GameObject.FindGameObjectWithTag("GameController").GetComponent<IScoreController>();
+        scoreController = controller.GetComponent<IScoreController>();
         if (scoreController == null)
         {
             Debug.LogError("Score controller not found");
         }
+        offscreenUIController = controller.GetComponent<IOffscreenUIController>();
+        if (offscreenUIController == null)
+        {
+            Debug.LogError("Offscreen UI Controller not found");
+        }
+        playerId = GetComponent<PlayerScore>().playerId;
     }
 
     public void FixedUpdate()
     {
         if (isOffScreen)
         {
-            deathCounter += deathDurationAddition;
+            deathCounter += Time.deltaTime;
         }
         else
         {
-            deathCounter -= deathDurationReduction;
+            deathCounter -= Time.deltaTime;
         }
-        deathCounter = Mathf.Clamp(deathCounter, deathDurationMin, deathDurationMax);
-        if (deathCounter == deathDurationMax)
+        deathCounter = Mathf.Clamp(deathCounter, 0, deathTimeout);
+        if (deathCounter == deathTimeout)
         {
             TriggerDeath();
         }
@@ -47,18 +53,19 @@ public class PlayerDeath : MonoBehaviour
     public void OnBecameInvisible()
     {
         isOffScreen = true;
+        offscreenUIController.PlayerOffscreen(playerId, isOffScreen);
     }
 
     public void OnBecameVisible()
     {
         isOffScreen = false;
+        offscreenUIController.PlayerOffscreen(playerId, isOffScreen);
     }
 
     public void TriggerDeath()
     {
         deathCounter = 0;
         spawn.SpawnPlayer(transform.parent.gameObject);
-        int playerId = GetComponent<PlayerScore>().playerId;
         scoreController.PlayerDeath(playerId);
     }
 }

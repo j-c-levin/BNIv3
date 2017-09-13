@@ -5,9 +5,12 @@ using UnityEngine;
 public class test_SpawnController : MonoBehaviour, ISpawnController
 {
     public GameObject playerPrefab;
+    public GameObject player;
+    public PlayerMovement playerMovement;
     public void SpawnPlayer(GameObject player)
     {
         Destroy(player);
-        Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+        this.player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+        playerMovement = this.player.GetComponentInChildren<PlayerMovement>();
     }
 }

@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class test_RaceStartController : MonoBehaviour
 {
-    public PlayerMovement player;
     public float neutralForce;
     public float rotationForce;
     public float raceStartHeight;
     public float readyUpTimerDuration;
     private float currentReadyUpTimer = 0;
+    private PlayerMovement player;
     private bool readyToJump = true;
     bool isReadyForRace = false;
 
     void Start()
     {
         GetComponent<test_MovementController>().enabled = false;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
     }
 
     void Update()

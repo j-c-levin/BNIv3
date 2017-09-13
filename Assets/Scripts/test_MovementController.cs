@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class test_MovementController : MonoBehaviour, IMovementController
 {
-    public PlayerMovement player;
+    private test_SpawnController spawnController;
     private IPowerupController powerupController;
     private bool readyToJump = false;
     MovementController.PlayerInput input;
+
+    public void Start()
+    {
+        spawnController = GetComponent<test_SpawnController>();
+    }
 
     void OnEnable()
     {
@@ -49,12 +54,12 @@ public class test_MovementController : MonoBehaviour, IMovementController
         if (movement > 0)
         {
             input.rightButton = true;
-            player.JumpRight();
+            spawnController.playerMovement.JumpRight();
         }
         else if (movement < 0)
         {
             input.leftButton = true;
-            player.JumpLeft();
+            spawnController.playerMovement.JumpLeft();
         }
         readyToJump = false;
     }

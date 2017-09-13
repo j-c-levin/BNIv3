@@ -17,7 +17,7 @@ public class PowerupUI : MonoBehaviour
         powerupIcon.enabled = false;
         player = transform.parent.GetComponentInChildren<PlayerMovement>().transform;
     }
-    use very similar techniques here to keep the offscreen ui on the border of the screen and enable/disable as the player becomes and loses invisibility
+
     public void Update()
     {
         transform.localPosition = player.localPosition;
