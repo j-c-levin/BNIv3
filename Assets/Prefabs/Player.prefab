@@ -605,7 +605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generalPowerupDuration: 6
-  jupiterJumpGravity: 3
+  jupiterJumpGravity: 6
   leftNoodlerArm: {fileID: 1029424734989944, guid: d1890f5dd4ea0054abeb9bfae8363596,
     type: 2}
   rightNoodlerArm: {fileID: 1298752479249856, guid: c3d7bc1418d68a94cbdd3a98fa65c9ec,
