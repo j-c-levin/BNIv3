@@ -3,19 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RaceController : MonoBehaviour
+public class RaceRestartController : MonoBehaviour
 {
-    public GameObject endOfRace;
-    public Text scoreText;
-
-    public void Start()
-    {
-        endOfRace.gameObject.SetActive(false);
-    }
-
     public void EndOfRace()
     {
-        endOfRace.gameObject.SetActive(true);
+        GetComponent<MovementController>().isRaceRunning = false;
         string finalScoresText = "";
         foreach (KeyValuePair<int, int> entry in GetComponent<ScoreController>().scores)
         {
@@ -25,13 +17,14 @@ public class RaceController : MonoBehaviour
             finalScoresText += entry.Value;
             finalScoresText += "\n";
         }
-        scoreText.text = finalScoresText;
+        Debug.Log(finalScoresText);
+        RestartRace();
     }
 
     public void RestartRace()
     {
-        // Deactivate the button
-        endOfRace.gameObject.SetActive(false);
+        // Reset the starting area
+        GetComponent<RaceStartController>().ResetRace();
         // Reset the collectables
         GetComponent<SpawnController>().ResetRace();
         // Reset scores

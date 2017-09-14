@@ -38,7 +38,7 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            GetComponent<RaceController>().EndOfRace();
+            GetComponent<RaceRestartController>().EndOfRace();
         }
     }
 }

@@ -14,7 +14,6 @@ public class RaceStartController : MonoBehaviour
     private SpawnController spawnController;
     private Dictionary<int, float> playersReady;
     private Dictionary<int, bool> isPlayerReady;
-    private bool isRaceRunning = false;
 
     void Start()
     {
@@ -30,7 +29,7 @@ public class RaceStartController : MonoBehaviour
         {
             Debug.LogError("Spawn controller not attached");
         }
-        movementController.SetRaceRunning(false);
+        movementController.isRaceRunning = false;
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>().enabled = false;
         playersReady = new Dictionary<int, float>();
         isPlayerReady = new Dictionary<int, bool>();
@@ -38,7 +37,7 @@ public class RaceStartController : MonoBehaviour
 
     public void Update()
     {
-        if (isRaceRunning)
+        if (movementController.isRaceRunning)
         {
             return;
         }
@@ -57,16 +56,30 @@ public class RaceStartController : MonoBehaviour
         }
     }
 
+    public void ResetRace()
+    {
+        startArea.SetActive(true);
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>().enabled = false;
+        Dictionary<int, float> tempReady = new Dictionary<int, float>();
+        Dictionary<int, bool> tempisReady = new Dictionary<int, bool>();
+        foreach (KeyValuePair<int, float> entry in playersReady)
+        {
+            tempReady.Add(entry.Key, 0);
+            tempisReady.Add(entry.Key, false);
+        }
+        playersReady = tempReady;
+        isPlayerReady = tempisReady;
+    }
+
     private void StartRace()
     {
-        movementController.SetRaceRunning(true);
+        movementController.isRaceRunning = true;
         foreach (KeyValuePair<int, GameObject> entry in spawnController.players)
         {
             entry.Value.GetComponentInChildren<PlayerMovement>().JumpUp();
         }
         startArea.SetActive(false);
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>().enabled = true;
-        this.enabled = false;
     }
 
     private void PlayerMovement(KeyValuePair<int, GameObject> entry)

@@ -11,10 +11,10 @@ public class MovementController : MonoBehaviour, IMovementController
         public bool leftButton;
         public bool rightButton;
     }
+    public bool isRaceRunning = false;
     private SpawnController spawnController;
     private Dictionary<int, PlayerInput> playerInput;
     private PowerupController powerupController;
-    private bool isRaceRunning = false;
 
     public void Start()
     {
@@ -57,11 +57,6 @@ public class MovementController : MonoBehaviour, IMovementController
         }
     }
 
-    public void SetRaceRunning(bool running)
-    {
-        isRaceRunning = running;
-    }
-
     public PlayerInput GetInputForPlayer(int playerId)
     {
         PlayerInput playerInput;
@@ -77,7 +72,6 @@ public class MovementController : MonoBehaviour, IMovementController
         foreach (KeyValuePair<int, GameObject> entry in spawnController.players)
         {
             entry.Value.transform.position = Vector3.zero;
-            entry.Value.GetComponentInChildren<PlayerMovement>().JumpUp();
         }
     }
 
