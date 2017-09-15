@@ -55,6 +55,15 @@ public class SpawnController : MonoBehaviour, ISpawnController
         }
         spawnedDiamonds = Instantiate(diamonds, diamonds.transform.position, Quaternion.identity);
         spawnedPowerups = Instantiate(powerups, powerups.transform.position, Quaternion.identity);
+        List<GameObject> temp = new List<GameObject>();
+        foreach (KeyValuePair<int, GameObject> entry in players)
+        {
+            temp.Add(entry.Value);
+        }
+        foreach (GameObject player in temp)
+        {
+            SpawnPlayer(player);
+        }
     }
 
     private void ColourPlayer(GameObject player, Color colour)
@@ -69,6 +78,7 @@ public class SpawnController : MonoBehaviour, ISpawnController
     {
         GameObject player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
         ColourPlayer(player, colours[colourNumber]);
+        Debug.Log("Player: " + playerId + " is colour: " + colours[colourNumber]);
         colourNumber += 1;
         colourNumber %= colours.Length;
         player.GetComponentInChildren<PlayerScore>().playerId = playerId;

@@ -25,13 +25,13 @@ public class RaceRestartController : MonoBehaviour
     {
         // Reset the starting area
         GetComponent<RaceStartController>().ResetRace();
-        // Reset the collectables
-        GetComponent<SpawnController>().ResetRace();
         // Reset scores
         GetComponent<ScoreController>().ResetRace();
         // Reset camera
         GetComponent<CameraController>().ResetRace();
         // Reset players
         GetComponent<MovementController>().ResetRace();
+        // Reset the players and collectibles
+        GetComponent<SpawnController>().ResetRace();
     }
 }
