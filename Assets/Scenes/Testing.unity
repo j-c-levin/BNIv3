@@ -393,7 +393,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4009024070526112, guid: b9438462fa33b474abc09bc9cd10bd3f, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -3.36
+      value: -3.35
       objectReference: {fileID: 0}
     - target: {fileID: 4009024070526112, guid: b9438462fa33b474abc09bc9cd10bd3f, type: 2}
       propertyPath: m_LocalPosition.z
@@ -912,6 +912,7 @@ MonoBehaviour:
     type: 2}
   player: {fileID: 38009349}
   playerMovement: {fileID: 1331252482}
+  character: 0
 --- !u!114 &1576957363
 MonoBehaviour:
   m_ObjectHideFlags: 0
