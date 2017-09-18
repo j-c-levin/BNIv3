@@ -14,12 +14,10 @@ public class MovementController : MonoBehaviour, IMovementController
     public bool isRaceRunning = false;
     private SpawnController spawnController;
     private Dictionary<int, PlayerInput> playerInput;
-    private PowerupController powerupController;
 
     public void Start()
     {
         spawnController = GetComponent<SpawnController>();
-        powerupController = GetComponent<PowerupController>();
         playerInput = new Dictionary<int, PlayerInput>();
         AirConsole.instance.onMessage += OnMessage;
         AirConsole.instance.onConnect += OnConnect;
@@ -36,21 +34,13 @@ public class MovementController : MonoBehaviour, IMovementController
         {
             PlayerMovement player = entry.Value.GetComponentInChildren<PlayerMovement>();
             PlayerInput input = GetInputForPlayer(entry.Key);
-            bool powerup = input.leftButton && input.rightButton && powerupController.HasPowerup(entry.Key);
-            if (powerup)
+            if (input.rightButton)
             {
-                powerupController.UsePowerup(entry.Key);
+                player.JumpRight();
             }
-            else
+            else if (input.leftButton)
             {
-                if (input.rightButton)
-                {
-                    player.JumpRight();
-                }
-                else if (input.leftButton)
-                {
-                    player.JumpLeft();
-                }
+                player.JumpLeft();
             }
             input.leftButton = false;
             input.rightButton = false;

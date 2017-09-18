@@ -3,7 +3,5 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public interface IPowerupController {
-	PlayerPowerup.Powerup CollectedPowerup(int playerId, Collider2D powerup);
-	bool HasPowerup(int playerId);
-	void UsePowerup(int playerId);
+	void CollectedPowerup(int playerId, Collider2D powerup);
 }

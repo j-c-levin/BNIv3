@@ -45,12 +45,6 @@ public class test_MovementController : MonoBehaviour, IMovementController
             input.rightButton = false;
             return;
         }
-        if (powerup && powerupController.HasPowerup(0))
-        {
-            input.leftButton = true;
-            input.rightButton = true;
-            powerupController.UsePowerup(0);
-        }
         if (movement > 0)
         {
             input.rightButton = true;

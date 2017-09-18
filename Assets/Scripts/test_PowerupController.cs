@@ -16,36 +16,33 @@ public class test_PowerupController : MonoBehaviour, IPowerupController
         Infinite = 10000
     }
     private PlayerPowerup player;
-    private bool playerHasPowerup = false;
+    private int playerIdForPowerup;
 
     public void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerPowerup>();
+        playerIdForPowerup = (didPlayerCastPowerup) ? 0 : 1;
         if (overridePowerupDuration != powerupDuration.Off)
         {
             player.generalPowerupDuration = (int)overridePowerupDuration;
         }
+        if (playerAlwaysHasPowerup)
+        {
+            UsePowerup(playerIdForPowerup);
+        }
     }
 
-    public PlayerPowerup.Powerup CollectedPowerup(int playerId, Collider2D powerup)
+    public void CollectedPowerup(int playerId, Collider2D collider)
     {
-        playerHasPowerup = true;
+        UsePowerup(playerIdForPowerup);
         if (shouldDestroyPowerup)
         {
-            Destroy(powerup.gameObject);
+            Destroy(collider.gameObject);
         }
-        return this.powerup;
-    }
-
-    public bool HasPowerup(int playerId)
-    {
-        return playerHasPowerup || playerAlwaysHasPowerup;
     }
 
     public void UsePowerup(int playerId)
     {
-        playerId = (didPlayerCastPowerup) ? 0 : 1;
         player.UsePowerup(playerId, powerup);
-        playerHasPowerup = false;
     }
 }

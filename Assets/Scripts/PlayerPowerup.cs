@@ -6,7 +6,6 @@ public class PlayerPowerup : MonoBehaviour
 {
     public enum Powerup
     {
-        None,
         JupiterJump,
         Noodler
     }
@@ -35,17 +34,12 @@ public class PlayerPowerup : MonoBehaviour
     {
         if (collider.gameObject.layer == powerupLayer)
         {
-            Powerup powerup = powerupController.CollectedPowerup(playerId, collider);
-            if (powerup != Powerup.None)
-            {  
-                transform.parent.GetComponentInChildren<PowerupUI>().CollectedPowerup(powerup);
-            }
+            powerupController.CollectedPowerup(playerId, collider);
         }
     }
 
     public void UsePowerup(int castingPlayerId, Powerup power)
     {
-        transform.parent.GetComponentInChildren<PowerupUI>().UsePowerup();
         switch (power)
         {
             case Powerup.JupiterJump:
@@ -54,53 +48,9 @@ public class PlayerPowerup : MonoBehaviour
             case Powerup.Noodler:
                 Noodler(castingPlayerId);
                 break;
-            // case Powerup.Facelaser:
-            //     Facelaser(castingPlayerId);
-            //     break;
             default:
                 Debug.LogError("Powerup " + power + " not registered with player powerup");
                 break;
-        }
-    }
-
-    private void Facelaser(int castingPlayerId)
-    {
-        if (playerId == castingPlayerId)
-        {
-            StartCoroutine("FacelaserRoutine");
-        }
-    }
-
-    private IEnumerator FacelaserRoutine()
-    {
-        float currentTime = Time.time;
-        float lastShotTime = 0;
-        IMovementController input = GameObject.FindGameObjectWithTag("GameController").GetComponent<IMovementController>();
-        if (input == null)
-        {
-            Debug.LogError("No movement controller found");
-        }
-        MovementController.PlayerInput currentInput;
-        while (Time.time - currentTime < generalPowerupDuration)
-        {
-            currentInput = input.GetInputForPlayer(playerId);
-            bool readyToShoot = Time.time - lastShotTime >= facelaserFireRate;
-            if (readyToShoot)
-            {
-                if (currentInput.rightButton)
-                {
-                    lastShotTime = Time.time;
-                    float direction = (transform.rotation.eulerAngles.z <= 180) ? 180 : 0;
-                    createLazer(direction);
-                }
-                if (currentInput.leftButton)
-                {
-                    lastShotTime = Time.time;
-                    float direction = (transform.rotation.eulerAngles.z <= 180) ? 0 : 190;
-                    createLazer(direction);
-                }
-            }
-            yield return new WaitForEndOfFrame();
         }
     }
 
