@@ -7,8 +7,6 @@ using NDream.AirConsole;
 public class SpawnController : MonoBehaviour, ISpawnController
 {
     public GameObject playerPrefab;
-    public GameObject diamonds;
-    public GameObject powerups;
     public Dictionary<int, GameObject> players;
     private GameObject gameCamera;
     private Vector3 spawnPosition
@@ -21,8 +19,6 @@ public class SpawnController : MonoBehaviour, ISpawnController
         }
     }
     private int characterStyleNumber = 0;
-    private GameObject spawnedDiamonds;
-    private GameObject spawnedPowerups;
 
     public void Start()
     {
@@ -45,16 +41,6 @@ public class SpawnController : MonoBehaviour, ISpawnController
 
     public void ResetRace()
     {
-        if (spawnedDiamonds != null)
-        {
-            Destroy(spawnedDiamonds.gameObject);
-        }
-        if (spawnedPowerups != null)
-        {
-            Destroy(spawnedPowerups);
-        }
-        spawnedDiamonds = Instantiate(diamonds, diamonds.transform.position, Quaternion.identity);
-        spawnedPowerups = Instantiate(powerups, powerups.transform.position, Quaternion.identity);
         List<GameObject> temp = new List<GameObject>();
         foreach (KeyValuePair<int, GameObject> entry in players)
         {
@@ -69,8 +55,8 @@ public class SpawnController : MonoBehaviour, ISpawnController
     private void OnConnect(int playerId)
     {
         GameObject player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
-        player.GetComponent<PlayerStyle>().SetCharacterStyle((PlayerStyle.Character) characterStyleNumber);
-        Debug.Log("Player: " + playerId + " is character: " + (PlayerStyle.Character) characterStyleNumber);
+        player.GetComponent<PlayerStyle>().SetCharacterStyle((PlayerStyle.Character)characterStyleNumber);
+        Debug.Log("Player: " + playerId + " is character: " + (PlayerStyle.Character)characterStyleNumber);
         characterStyleNumber += 1;
         characterStyleNumber %= Enum.GetNames(typeof(PlayerStyle.Character)).Length;
         player.GetComponentInChildren<PlayerScore>().playerId = playerId;
