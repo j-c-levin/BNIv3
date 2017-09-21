@@ -22,7 +22,7 @@ public class test_EnvironmentController : MonoBehaviour
         yield return new WaitForSeconds(timeBetweenHazard);
         switch (hazard)
         {
-            case EnvironmentController.environmentHazard.FallingBlocks:
+            case EnvironmentController.environmentHazard.CastleDropPlatform:
                 CastleDropPlatform();
                 break;
         }
@@ -30,13 +30,12 @@ public class test_EnvironmentController : MonoBehaviour
 
     private void CastleDropPlatform()
     {
-        Vector3 spawnPosition = player.position;
-        spawnPosition.y = 6f;
-        spawnPosition.z = 1f;
         GameObject platform = Instantiate(castleDropPlatform, Vector2.zero, castleDropPlatform.transform.rotation);
         platform.transform.SetParent(mainCamera.transform);
+        Vector3 spawnPosition = new Vector3(player.position.x, 6f, 1f);
         platform.transform.localPosition = spawnPosition;
-        platform.GetComponent<castleDropPlatform>().endOfHazardDelegate = EndOfHazard;
+        platform.GetComponent<CastleDropPlatform>().endOfHazardDelegate = EndOfHazard;
+        platform.GetComponent<CastleDropPlatform>().SetPlayer(player.gameObject);
     }
 
     private void EndOfHazard()

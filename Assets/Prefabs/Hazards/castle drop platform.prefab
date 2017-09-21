@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 50996940414493230}
   - component: {fileID: 61480676281440464}
   - component: {fileID: 114627304819164170}
+  - component: {fileID: 95671989941793902}
   m_Layer: 0
   m_Name: castle drop platform
   m_TagString: Untagged
@@ -124,6 +125,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.8, y: 0.8}
   m_EdgeRadius: 0
+--- !u!95 &95671989941793902
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1645592838839030}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4c0b7b01cf35c794091221f38089c420, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114249267545666554
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -162,7 +180,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7608e1101c3bfec4cbe8a49bcb719c7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropSpeed: 20
+  player: {fileID: 0}
+  dropSpeed: 25
 --- !u!114 &114637047971790736
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -302,6 +321,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 273}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}

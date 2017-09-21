@@ -3262,6 +3262,7 @@ GameObject:
   - component: {fileID: 827677836}
   - component: {fileID: 827677837}
   - component: {fileID: 827677838}
+  - component: {fileID: 827677839}
   m_Layer: 0
   m_Name: Controllers
   m_TagString: GameController
@@ -3295,8 +3296,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 1872525433358722, guid: b9438462fa33b474abc09bc9cd10bd3f,
     type: 2}
-  diamonds: {fileID: 1600742257770238, guid: bf5b8fd7a9d0bb3498ea03ec7d2e0313, type: 2}
-  powerups: {fileID: 1120404160939376, guid: 1d503eada18c3504fb352d59cc4a2ca6, type: 2}
 --- !u!114 &827677832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3385,6 +3384,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offscreenIndicatorImage: {fileID: 114007850707535702, guid: a8a4723f65d149f4db90c7c7e017968b,
+    type: 2}
+--- !u!114 &827677839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 827677829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51f3f2896a9e47942b4a62fbbfdb0daa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeBetweenHazards: 3
+  castleDropPlatform: {fileID: 1645592838839030, guid: 6f7be01ead59c0546a0e2c21e1f44bb1,
     type: 2}
 --- !u!1 &842115604
 GameObject:

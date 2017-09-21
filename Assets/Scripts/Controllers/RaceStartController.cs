@@ -80,6 +80,7 @@ public class RaceStartController : MonoBehaviour
         }
         startArea.SetActive(false);
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>().enabled = true;
+        GetComponent<EnvironmentController>().StartHazards();
     }
 
     private void PlayerMovement(KeyValuePair<int, GameObject> entry)

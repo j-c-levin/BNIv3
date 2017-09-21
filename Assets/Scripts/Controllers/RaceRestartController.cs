@@ -8,6 +8,7 @@ public class RaceRestartController : MonoBehaviour
     public void EndOfRace()
     {
         GetComponent<MovementController>().isRaceRunning = false;
+        GetComponent<EnvironmentController>().StopHazards();
         string finalScoresText = "";
         foreach (KeyValuePair<int, int> entry in GetComponent<ScoreController>().scores)
         {
