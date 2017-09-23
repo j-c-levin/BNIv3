@@ -7,7 +7,8 @@ public class EnvironmentController : MonoBehaviour
 {
     public enum environmentHazard
     {
-        CastleDropPlatform
+        CastleDropPlatform,
+        BombsAway
     }
     public float timeBetweenHazards;
     public GameObject castleDropPlatform;

@@ -25,7 +25,15 @@ public class test_EnvironmentController : MonoBehaviour
             case EnvironmentController.environmentHazard.CastleDropPlatform:
                 CastleDropPlatform();
                 break;
+            case EnvironmentController.environmentHazard.BombsAway:
+                BombsAway();
+                break;
         }
+    }
+
+    private void BombsAway()
+    {
+
     }
 
     private void CastleDropPlatform()
