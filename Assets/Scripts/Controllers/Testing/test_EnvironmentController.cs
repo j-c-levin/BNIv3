@@ -7,6 +7,7 @@ public class test_EnvironmentController : MonoBehaviour
     public EnvironmentController.environmentHazard hazard;
     public float timeBetweenHazard;
     public GameObject castleDropPlatform;
+    public GameObject bombsAway;
     private Transform player;
     private Transform mainCamera;
 
@@ -33,7 +34,11 @@ public class test_EnvironmentController : MonoBehaviour
 
     private void BombsAway()
     {
-
+        GameObject bomb = Instantiate(bombsAway, Vector2.zero, castleDropPlatform.transform.rotation);
+        bomb.transform.SetParent(mainCamera.transform);
+        Vector3 spawnPosition = new Vector3(-10f, -2, 1f);
+        bomb.transform.localPosition = spawnPosition;
+        bomb.GetComponent<BombsAway>().endOfHazardDelegate = EndOfHazard;
     }
 
     private void CastleDropPlatform()

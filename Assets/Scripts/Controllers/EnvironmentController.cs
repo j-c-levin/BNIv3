@@ -10,6 +10,7 @@ public class EnvironmentController : MonoBehaviour
         CastleDropPlatform,
         BombsAway
     }
+    public delegate void EndOfHazardDelegate();
     public float timeBetweenHazards;
     public GameObject castleDropPlatform;
     private Transform mainCamera;

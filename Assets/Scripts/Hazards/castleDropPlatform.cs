@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class CastleDropPlatform : MonoBehaviour
 {
-    public delegate void EndOfHazardDelegate();
-    public EndOfHazardDelegate endOfHazardDelegate;
+    public EnvironmentController.EndOfHazardDelegate endOfHazardDelegate;
     public float dropSpeed;
     private bool drop = false;
     private Rigidbody2D platform;
@@ -47,7 +46,10 @@ public class CastleDropPlatform : MonoBehaviour
         {
             Debug.LogError("No end of hazard delegate");
         }
-        endOfHazardDelegate();
+        else
+        {
+            endOfHazardDelegate();
+        }
         Destroy(this.gameObject);
     }
 
