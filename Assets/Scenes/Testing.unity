@@ -606,7 +606,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1339234507
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -831,11 +831,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4009024070526112, guid: b9438462fa33b474abc09bc9cd10bd3f, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 5.09
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4009024070526112, guid: b9438462fa33b474abc09bc9cd10bd3f, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.82
+      value: -3.23
       objectReference: {fileID: 0}
     - target: {fileID: 4009024070526112, guid: b9438462fa33b474abc09bc9cd10bd3f, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1058,13 +1058,14 @@ MonoBehaviour:
   player: {fileID: 38009349}
   playerMovement: {fileID: 1331252482}
   character: 0
+  respawnDuration: 3
 --- !u!114 &1576957363
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1576957359}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff07187702cfaa64fa325407b2cd9d25, type: 3}
   m_Name: 
@@ -1137,7 +1138,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1576957359}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6978adc174bb6f344ae163c2ba66996a, type: 3}
   m_Name: 
