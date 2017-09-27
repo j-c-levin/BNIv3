@@ -3397,8 +3397,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenHazards: 3
-  castleDropPlatform: {fileID: 1645592838839030, guid: 6f7be01ead59c0546a0e2c21e1f44bb1,
+  castleDropPlatform: {fileID: 1652551606305842, guid: 6f7be01ead59c0546a0e2c21e1f44bb1,
     type: 2}
+  bombsAway: {fileID: 1128540262329212, guid: 87f1774c0b6c78849b60a8f5824eadde, type: 2}
 --- !u!1 &842115604
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,10 +14,30 @@ public class BombsAway : MonoBehaviour
     public float explosionRadius;
     private Vector2 target;
     private Tween movement;
+    private Transform player;
+    private float playerEdgeHorizontal = 8;
+    private float playerEdgeVertical = 4;
+    private float indicatorHorizontalEdge = 550;
+    private float indicatorVerticalEdge = 275;
+    private Image indicator;
+    private Transform gameCamera;
+    private Vector3 lastCameraPosition;
 
     public void Start()
     {
         SetIndicatorPosition();
+    }
+
+    public void Update()
+    {
+        float cameraMovement = gameCamera.position.y - lastCameraPosition.y; 
+        lastCameraPosition = gameCamera.position;
+        indicator.transform.Translate(0, -cameraMovement * 10, 0);
+    }
+
+    public void SetPlayer(GameObject player)
+    {
+        this.player = player.transform;
     }
 
     public void LaunchBomb()
@@ -72,17 +92,16 @@ public class BombsAway : MonoBehaviour
 
     private void SetIndicatorPosition()
     {
-        Image indicator = GetComponentInChildren<Image>();
-        float canvasWidth = 640f;
-        float canvasHeight = 355f;
-        float randomArea = 0.5f;
-        float randomX = Random.Range(-randomArea, randomArea);
-        float randomXPosition = randomX * Screen.width;
-        float randomY = Random.Range(-randomArea, randomArea);
-        float randomYPosition = randomY * Screen.height;
-        Vector2 indicatorTarget = new Vector2(randomXPosition, randomYPosition);
-        indicator.transform.localPosition = indicatorTarget;
-        target = new Vector2(10 * randomX, 5 * randomY);
+        indicator = GetComponentInChildren<Image>();
+        gameCamera = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        lastCameraPosition = gameCamera.transform.position;
+        float percentageX = (gameCamera.position.x - player.position.x) / playerEdgeHorizontal;
+        float percentageY = (gameCamera.position.y - player.position.y) / playerEdgeVertical;
+        percentageX = Mathf.Clamp(percentageX, -1, 1) * indicatorHorizontalEdge * -1;
+        percentageY = Mathf.Clamp(percentageY, -1, 1) * indicatorVerticalEdge * -1;
+        Vector2 newIndicatorPosition = new Vector2(percentageX, percentageY);
+        indicator.transform.localPosition = newIndicatorPosition;
+        target = player.position;
         LaunchBomb();
     }
 }

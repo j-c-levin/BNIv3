@@ -39,6 +39,8 @@ public class test_EnvironmentController : MonoBehaviour
         Vector3 spawnPosition = new Vector3(-10f, -2, 1f);
         bomb.transform.localPosition = spawnPosition;
         bomb.GetComponent<BombsAway>().endOfHazardDelegate = EndOfHazard;
+        bomb.GetComponent<BombsAway>().SetPlayer(player.gameObject);
+        bomb.transform.SetParent(null);
     }
 
     private void CastleDropPlatform()

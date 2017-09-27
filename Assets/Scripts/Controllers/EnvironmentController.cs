@@ -13,8 +13,10 @@ public class EnvironmentController : MonoBehaviour
     public delegate void EndOfHazardDelegate();
     public float timeBetweenHazards;
     public GameObject castleDropPlatform;
+    public GameObject bombsAway;
     private Transform mainCamera;
     private SpawnController spawnController;
+    private bool hazardIsRunning = false;
 
     public void Start()
     {
@@ -38,6 +40,7 @@ public class EnvironmentController : MonoBehaviour
 
     private IEnumerator SelectHazard()
     {
+        hazardIsRunning = true;
         yield return new WaitForSeconds(timeBetweenHazards);
         if (GetComponent<MovementController>().isRaceRunning == false)
         {
@@ -45,12 +48,20 @@ public class EnvironmentController : MonoBehaviour
         }
         int numberOfHazards = Enum.GetNames(typeof(environmentHazard)).Length;
         environmentHazard currentHazard = (environmentHazard)UnityEngine.Random.Range(0, numberOfHazards);
+        // environmentHazard currentHazard = environmentHazard.BombsAway;
         switch (currentHazard)
         {
             case environmentHazard.CastleDropPlatform:
                 CastleDropPlatform();
                 break;
+            case environmentHazard.BombsAway:
+                BombsAway();
+                break;
+            default:
+                Debug.LogError("unimplement hazard: " + currentHazard);
+                break;
         }
+        hazardIsRunning = false;
     }
 
     private void CastleDropPlatform()
@@ -66,11 +77,34 @@ public class EnvironmentController : MonoBehaviour
             float spawnDepth = entry.Value.transform.position.z;
             Vector3 spawnPosition = new Vector3(player.transform.position.x, dropHeight, spawnDepth);
             platform.transform.position = spawnPosition;
+            platform.transform.SetParent(null);
+        }
+    }
+
+    private void BombsAway()
+    {
+        foreach (KeyValuePair<int, GameObject> entry in spawnController.players)
+        {
+            GameObject player = entry.Value.GetComponentInChildren<PlayerMovement>().gameObject;
+            GameObject hazard = Instantiate(bombsAway, Vector2.zero, bombsAway.transform.rotation);
+            hazard.transform.SetParent(mainCamera.transform);
+            hazard.GetComponent<BombsAway>().endOfHazardDelegate = EndOfHazard;
+            hazard.GetComponent<BombsAway>().SetPlayer(player);
+            float leftOrRightSide = (entry.Key % 2 == 0) ? -11 : 11;
+            Vector3 spawnPosition = new Vector3(
+                mainCamera.transform.position.x + leftOrRightSide,
+                mainCamera.transform.position.y - 3,
+                entry.Value.transform.position.z);
+            hazard.transform.position = spawnPosition;
+            hazard.transform.SetParent(null);
         }
     }
 
     private void EndOfHazard()
     {
-        StartCoroutine("SelectHazard");
+        if (hazardIsRunning == false)
+        {
+            StartCoroutine("SelectHazard");
+        }
     }
 }
