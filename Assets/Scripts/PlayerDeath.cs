@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDeath : MonoBehaviour
+public class DPlayerDeath : MonoBehaviour
 {
     public float deathTimeout;
     private float deathCounter = 0;
@@ -20,17 +20,17 @@ public class PlayerDeath : MonoBehaviour
         {
             Debug.Log("Spawn controller not found");
         }
-        scoreController = controller.GetComponent<IScoreController>();
-        if (scoreController == null)
-        {
-            Debug.LogError("Score controller not found");
-        }
-        offscreenUIController = controller.GetComponent<IOffscreenUIController>();
-        if (offscreenUIController == null)
-        {
-            Debug.LogError("Offscreen UI Controller not found");
-        }
-        playerId = GetComponent<PlayerScore>().playerId;
+        // scoreController = controller.GetComponent<IScoreController>();
+        // if (scoreController == null)
+        // {
+        //     Debug.LogError("Score controller not found");
+        // }
+        // offscreenUIController = controller.GetComponent<IOffscreenUIController>();
+        // if (offscreenUIController == null)
+        // {
+        //     Debug.LogError("Offscreen UI Controller not found");
+        // }
+        // playerId = GetComponent<PlayerScore>().playerId;
     }
 
     public void FixedUpdate()
@@ -53,13 +53,13 @@ public class PlayerDeath : MonoBehaviour
     public void OnBecameInvisible()
     {
         isOffScreen = true;
-        offscreenUIController.PlayerOffscreen(playerId, isOffScreen);
+        // offscreenUIController.PlayerOffscreen(playerId, isOffScreen);
     }
 
     public void OnBecameVisible()
     {
         isOffScreen = false;
-        offscreenUIController.PlayerOffscreen(playerId, isOffScreen);
+        // offscreenUIController.PlayerOffscreen(playerId, isOffScreen);
     }
 
     public void TriggerDeath()

@@ -19,7 +19,7 @@ public class Facelaser : MonoBehaviour
         bool isOtherPlayer = collider.GetComponent<PlayerScore>().playerId != castingPlayerId;
         if (isPlayerObject && isOtherPlayer)
         {
-            collider.GetComponent<PlayerDeath>().TriggerDeath();
+            collider.GetComponent<DPlayerDeath>().TriggerDeath();
             Destroy(this.gameObject);
         }
     }

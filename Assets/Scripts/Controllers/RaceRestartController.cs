@@ -25,7 +25,7 @@ public class RaceRestartController : MonoBehaviour
     public void RestartRace()
     {
         // Reset the starting area
-        GetComponent<RaceStartController>().ResetRace();
+        // GetComponent<RaceStartController>().ResetRace();
         // Reset scores
         GetComponent<ScoreController>().ResetRace();
         // Reset camera

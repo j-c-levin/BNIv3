@@ -61,6 +61,7 @@ public class SpawnController : MonoBehaviour, ISpawnController
         characterStyleNumber %= Enum.GetNames(typeof(PlayerStyle.Character)).Length;
         player.GetComponentInChildren<PlayerScore>().playerId = playerId;
         players.Add(playerId, player);
+        GetComponent<InputController>().AddPlayer(playerId, player);
     }
 
     private void OnDisconnect(int playerId)

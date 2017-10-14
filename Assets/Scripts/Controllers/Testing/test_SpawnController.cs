@@ -10,7 +10,7 @@ public class test_SpawnController : MonoBehaviour, ISpawnController
     public PlayerStyle.Character character;
     public float respawnDuration;
     private float respawnTime = 0;
-    private bool playerHasSpawned = true;
+    private bool playerHasSpawned = false;
 
     public void Start()
     {
